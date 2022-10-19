@@ -1,0 +1,304 @@
+```
+存放不太必备的软件，但也很不错的软件~蓝奏云分享链接：https://zjazn.lanzouq.com/b050a8lej
+密码:bbtq
+```
+
+ **前面有个“#”的说明，本身有缺点，或有更好的替代的工具**
+
+ 
+
+最佳下载office软件(五星推荐)：https://otp.landian.vip/zh-cn/
+
+utools最强最强最强最强软件：https://u.tools/
+
+最强压缩软件 BANDIZIP(无广告版本) ：https://zjazn.lanzouq.com/i7vht5e  较新无广告版本：https://ghpym.lanzoui.com/b00zdekyh
+
+下载office(推荐)：https://zjazn.lanzouq.com/iGN94yptrje
+
+直接下载office(少数版本)： https://www.jianshu.com/p/2e1b09a4be6c
+
+首选激活工具(office/windows)：https://kms.cangshui.net/
+
+激活office（可安装续期）/windows工具（推荐）：https://aichunjing.lanzoui.com/b710887
+
+次选激活工具(office/windows)：http://www.yishimei.cn/network/319.html
+
+关闭防火墙工具：https://zjazn.lanzouq.com/iGferypthid
+
+内存清理工具：https://www.henrypp.org/product/memreduct
+
+本地文件搜索（Everything）：https://www.voidtools.com/zh-cn/downloads/    (中文语言包：https://www.voidtools.com/Everything.lng.zip)
+
+播放器（potplayer）：https://potplayer.daum.net/
+
+mydockfinder （最佳windows美化工具，值得付费使用）：https://www.mydockfinder.com/
+
+简洁的卸载工具（Geek ）：https://geekuninstaller.com/download
+
+最好用的ftp+ssh工具（MobaXterm）：https://mobaxterm.mobatek.net/download-home-edition.html
+
+快捷弹出窗口工具（Maya，快速回到工作状态）：https://blog.arae.cc/post/25842.html
+
+最佳MD编辑器（Typora）: https://www.typora.io/releases/all
+
+【java程序员】maven ：https://maven.apache.org/download.cgi
+
+电脑长截图工具：https://faststone-capture.en.softonic.com/
+
+设置键值，由键替换为值&快速计算：https://cjkis.me/capslock+/
+
+最佳替换window记事本的文本编辑器：https://github.com/rizonesoft/Notepad3/releases
+
+最佳文本编辑器（notepad++）：https://github.com/notepad-plus-plus/notepad-plus-plus/
+
+精准OCR工具：https://ocr.oldfish.cn/
+
+softcnkiller四海一叶秋（流氓软件或不正常软件扫描工具）：https://www.yanlutong.com/pcsoft/8194
+
+文件粉碎：https://www.lanzoui.com/iaeefqj
+
+windows内置软件卸载工具：https://github.com/Teraskull/PyDebloatX/releases
+
+关闭windows安全工具：https://www.ghxi.com/defendercontrol.html  ，第二款：https://www.wrfou.com/defender-control.html
+
+检测电脑当前是否可使用虚拟软件，如模拟器，VM虚拟机：https://leomoon.com/downloads/desktop-apps/leomoon-cpu-v/
+
+字体设定（给电脑换字体工具）：https://github.com/Tatsu-syo/noMeiryoUI
+
+对文本的内容进行搜索从而找到文件，你只要知道文本有哪些内容，就能找到这个文件（真的牛）：https://anytxt.net/download/
+
+[程序员] github,npm等加速：https://github.com/docmirror/dev-sidecar/releases/tag/v1.6.1
+
+Ventoy (多平台，安装系统，使用PE的最佳工具)：https://www.cnblogs.com/zjazn/p/15880711.html
+
+微软运行库：https://www.aliyundrive.com/s/heGxXVxQC9R
+
+局域网文件分享：http://iscute.cn/chfs
+
+远程控制软件ToDesk:https://www.todesk.com/
+
+屏幕变写字板，老师喜欢的软件：http://www.pointofix.de/download.php
+
+校园网开wifi(它起防检测作用，打开这个软件后，你再去电脑设置中正常打开电脑的热点): http://wifi.ggsafe.com/ [绿化版>>](https://cdn.jsdelivr.net/gh/18476305640/typora@master/images/2022/09/25/WiFi共享大师.zip)
+
+QtScrcpy（开源的手机投屏到电脑的软件）：https://github.com/barry-ran/QtScrcpy
+
+将阿里云盘挂载到电脑的盘符上：https://www.appinn.com/clouddrive
+
+电脑硬件工具箱：https://wintool.cc/
+
+五笔输入法工具，词库与自定义词库（WubLex）: https://wubi.aardio.com/
+
+快速调整窗口尺寸工具：https://meta.appinn.net/t/topic/6837
+
+BliBli视频下载器：https://github.com/kengwang/BiliDuang
+
+ftp+ssh多平台工具（FinalShell）：http://www.hostbuf.com/t/988.html
+
+ftp+ssh多平台开源工具（WindTerm）：https://github.com/kingToolbox/WindTerm
+
+linux上的一款护眼软件：https://github.com/maoserr/redshiftgui
+
+IDM (是最好用的下载器，但是付费的且难于破解，推荐其替换品：NDM)：https://www.lanzoux.com/b288308/
+
+IDM破解方法：https://zjazn.lanzouq.com/iwaXy02rl4gb
+
+PDF阅读器（福昕，多平台）：https://www.foxitsoftware.cn/
+
+windoes镜像与office高速下载（内容较旧，但下载快）：https://www.heidoc.net/php/Windows-ISO-Downloader.exe
+
+阿里网盘挂载：https://www.aliyundrive.com/s/wLQfjyVMUq3
+
+windows镜像在线快速下载：https://www.yanlutong.com/xitong/
+
+驱动精灵（电脑安装驱动）：https://www.aliyundrive.com/s/18NYJ6xpDWL
+
+[程序员] IDEA无限重置：https://zjazn.lanzouq.com/iJIdN01l4bng
+
+Adobe软件注册机（这是官方版的，所以要梯子，使用时，不要登录着账号！，要退出来！）：https://www.reddit.com/r/GenP/
+
+PanDownload复活版：https://pandownload.net/index.html （官方电报：https://t.me/pandownloadfix）
+
+sodaplayer (还算不错的磁力播放器)：https://www.sodaplayer.com/
+
+文件蜈蚣（一款多类地址下载器，支持下载ed2k，但添加没反应，下载种子文件比较直观，可以看到有几个用户跟你一起下载）：http://www.filecxx.com/zh_CN/index.html#downloads
+
+Aria2 (支持磁力的下载, 特点是免费，轻巧)：http://aria2.baisheng999.com/
+
+Adobe软件 (官方正版下载): https://www.adobe.com/cn/products/catalog.html
+
+\# 爱奇艺看图（打开图片的工具，查看gif不是动态的，ps的psd）：https://zjazn.lanzouq.com/i3goV01ukhdc
+
+\# ImageGlass看图（打开图片的工具，查看gif不是动态的，但可以查找 ps的psd，支持的格式较全）：https://www.filehorse.com/download-imageglass-64/download/
+
+Notepad2 （替换记事本的一个不错的方案，推荐）：https://www.flos-freeware.ch/notepad2.html
+
+\#EditPlus（**当前已不推荐**，windows最好的记事本替代工具，里面有免费激活脚本）：https://zjazn.lanzouq.com/iRH0X01w26xa
+
+balenaEtcher (iso直接制作启动盘，多平台)：https://www.balena.io/etcher/
+
+rufus（ iso直接制作启动盘，强）：https://rufus.ie/zh/
+
+deepin（iso直接制作启动盘，最好用）： https://cdimage.deepin.com/applications/deepin-boot-maker/windows/
+
+\# 旧MyFinder+旧MyDock合并版（高仿Mac，请在本页搜索mydock，**此项已不推荐**）：https://zjazn.lanzouq.com/ivOWf01wtqod
+
+mydock（mydockfinder收费前的版本，已最优配置）：https://zjazn.lanzouq.com/iyFAI034bf8h
+
+PDF XChange Editor（PDF编辑器/阅读器，PDF第二选择，需要购买）：http://www.dayanzai.me/pdf-xchange-editor.html
+
+[程序员] 袋鼠数据库工具（多平台的数据库工具，但还不太好，现不推荐）：https://www.datatable.online/zh/document/
+
+RetroBar （win任务栏复古，xp，设置后任务栏空白右击进入软件设置可切换主题）：https://github.com/dremin/RetroBar
+
+gif录制工具（Screen To Gif）：https://www.screentogif.com/
+
+[程序员] StarUML（画UML类图工具）：https://staruml.io/download
+
+阿里云盘小白羊版（补充linux没有官方版这点）：https://github.com/liupan1890/aliyunpan
+
+Mac左右滑变window系统：https://www.parallels.cn/products/desktop/trial/
+
+WinBuilder（PE系统制作工具）：https://xia1ge.lanzout.com/iACn500zydtc   教程：https://x1g.la/winbuilder.html
+
+7zip（免费，强大的解压缩工具，**次选**解压缩软件）: https://www.7-zip.org/
+
+[Linux] Guake（自上而下的终端）：sudo apt install guake
+
+[Linux] Ubuntu 最新镜像（最新Bate LTS版本下载）：https://releases.ubuntu.com/jammy/
+
+Honeyview（看图软件，轻小，无广告，首选看图工具, 与Bandizip是一家的 ）：https://cn.bandisoft.com/honeyview/
+
+NDM (IDM的最优替代器)：https://www.neatdownloadmanager.com/index.php/en/ 汉化（替换的方式）：https://www.ghxi.com/ndm.html
+
+小丸子工具箱（视频，音频无损压缩，高压缩率，无损压缩）：官网：https://maruko.appinn.me/ 直链：https://www.aliyundrive.com/s/HmhUz6m7TMe
+
+二款视频压缩工具（Moo0、H264压缩）：https://zjazn.lanzouq.com/izcnK02rjrij
+
+VM安装mac系统解锁器：https://github.com/paolo-projects/unlocker （将unlocker 整个目录解压在VM根目录，以管理员身份运行 win-install.cmd）
+
+VM-mac优化工具：https://gitee.com/thundergold/beamoff
+
+仿mac主题：https://zjazn.lanzouq.com/isnxd031lmbe
+
+msconfig （删除多系统引导）：Ctrl+R 输出 msconfig 回车
+
+单文件制作（可以把程序打包成exe运行，适合一些绿色工具类软件）：https://zjazn.lanzouq.com/ifXtP0347xsb
+
+LR.Team (第三方recovery): [https://weibo.com/5969889578](https://www.book-dl.com/addons/cms/go/index.html?url=https%3A%2F%2Fweibo.com%2F5969889578)
+
+clash（小猫咪）：https://github.com/Fndroid/clash_for_windows_pkg  
+
+clash （小猫咪汉化开源版）：https://github.com/ender-zhao/Clash-for-Windows_Chinese
+
+uTorrent Pro 3.5.5.44954 (破解增强绿色版, bt/磁力下载): https://www.lanzouw.com/ipL0Qw1ob8b
+
+熊猫OCR（非常不错的一款免费的OCR工具）：https://github.com/miaomiaosoft/PandaOCR
+
+clash for Android (安卓的Clash客户端): https://github.com/Kr328/ClashForAndroid/releases
+
+PanDownload （百度网盘第三方，不一定什么时候都可用，要注意的是先分享后再用分享的下载，打开后页面有下载的链接）：https://pandownload.net/index.html
+
+通过企业为文件/文件夹临时加速进行高速下载（百度网盘下载，从淘宝购买加速次数，比如一个月100次/10元）： https://m.tb.cn/h.fIMEKtC
+
+[程序员] redis 管理工具（开源免费，美观）：https://github.com/qishibo/AnotherRedisDesktopManager
+
+微软运行库（安装后重启，用于解决某些软件运行报错问题）：https://github.com/abbodi1406/vcredist
+
+ Wub（关闭系统更新）：https://www.sordum.org/downloads/?st-windows-update-blocker
+
+Dism++ (系统优化，驱动备份/安装)：https://github.com/Chuyu-Team/Dism-Multi-language
+
+wps 无广告版 (解决wps广告，退出后在后台停留) :https://zjazn.lanzouq.com/iKNOD07x0zab
+
+clashX (Mac平台Clash ): https://github.com/yichengchen/clashX/releases
+
+v删2rayN (这是v删2ray的windows客户端，手机的是v删2rayNG, 注意下载有内核的): https://github.com/2dust/v删2rayN/releases/tag/5.23
+
+百分浏览器（如果一定要下载“国产”的浏览器，那这个是首选，可以登录谷歌账号同步信息）：https://www.centbrowser.cn/
+
+ImTip（ImTip – 仅 660 KB，输入法状态提示工具， 切换输入法时，会显示。）：https://github.com/aardio/ImTip 
+
+Fiddler（很不错的，PC抓包工具）：https://www.telerik.com/download/fiddler [教程>>](https://www.cnblogs.com/zhuangjie/p/16296933.html)
+
+diskgenius (最好用的磁盘工具): https://www.diskgenius.cn/
+
+sumatrapdf (小而好用的pdf阅读器): https://www.sumatrapdfreader.org/downloadafter
+
+\# 不共享的内容： https://www.cnblogs.com/zhuangjie/p/16385387.html
+
+WPD（推荐的防火墙关闭，别有一些系统优化功能）：https://zjazn.lanzouq.com/izozN06k3nyh
+
+微海鼠标自动点击器（鼠标动作录制）：https://zjazn.lanzouq.com/i1Yt206l6iuh
+
+iwck（使键盘失效，键盘锁定）：https://github.com/Nigh/I-wanna-clean-keyboard
+
+bitvise (SSH连接工具，有SFTP，推荐)：https://www.bitvise.com/ssh-client-download
+
+ EVC视频录制（一款不错的视频录制工具，有会员机制）：https://www.ieway.cn/evcapture.html
+
+KeybMap(解决键盘故障的神器)：https://www.cnblogs.com/zhuangjie/p/16422970.html
+
+Windows10优化小工具（不错）：https://www.ghxi.com/win10yhxgj.html
+
+Surfboard (Clash的替代器，只有安卓端，不支持多端): https://manual.getsurfboard.com/
+
+WinXray（windows订阅代理工具，支持多种订阅链接）https://github.com/TheMRLL/WinXray
+
+安卓应用：歌词适配 (各平台音乐各免费音质下载)：微信公众号搜索“歌词适配”
+
+安卓应用：微音乐 (各平台音乐各免费音质下载)：微信公众号搜索“微音乐助手”
+
+安卓应用：HttpClient (抓包工具）：https://zjazn.lanzouq.com/iUxvE06onqhc
+
+winToGo (制作移动U盘系统): https://www.disktool.cn/wintogo.html
+
+listen1（聚合多平台音乐，支持多平台，linux ,mac ,windows,安卓，甚至浏览器插件）： http://listen1.github.io/listen1/
+
+ezip（Mac解压工具，免费的，好看的）：https://ezip.awehunt.com/
+
+KeyFreeze（临时禁用鼠标与键盘）：https://www.appinn.com/keyfreeze-2/
+
+蓝瘦（安卓端的资源搜索）：https://www.6yit.com/328.html
+
+MarkText（Typora 替换器）：https://github.com/marktext/marktext 
+
+MarkText汉化（直接覆盖MarkText的安装目录）：https://github.com/chinayangxiaowei/marktext-chinese-language-pack
+
+bootice（修改/删除系统启动项，ubuntu ,windows这种启动项）：https://www.majorgeeks.com/files/details/bootice_64_bit.html
+
+updf（高颜值的PDF阅读器）：https://updf.com/
+
+Reduce Memory （内存清理，本文介绍的第二款，特点是，有清理间隔）：https://www.sordum.org/9197/reduce-memory
+
+cleanmem（清理内存，可以对某个软件进行操作，具有超过指定内存百分比时清理，定时清理功能）https://www.majorgeeks.com/files/details/cleanmem.html
+
+[程序员] SQLyong : https://github.com/webyog/sqlyog-community/wiki/Downloads
+
+UninstallPKG（Mac简洁的卸载工具）：www.corecode.io/uninstallpkg
+
+Listary (搜索, 分享文件时,可使用搜索快速发送): https://www.listary.com/
+
+\# XDM (配合浏览器的下载工具, 和IDM同类型的软件,这个是免费的, 但不推荐，有点难用) : https://xtremedownloadmanager.com/
+
+obsidian软件(md笔记,非常好用): https://obsidian.md/
+
+EasyCharts (Excel图表插件) : https://github.com/EasyChart/Excel-Chart-Plugin-EasyCharts
+
+天若OCR （ocr与翻译）：https://www.ghxi.com/trocr.html
+
+charles (抓包工具，多平台)：https://www.charlesproxy.com/download/
+
+PowerDesigner（数据库设计软件，软件+破解+汉化）： 链接：https://pan.baidu.com/s/1qznLBQvkjiCKcmHBnsSRZg   提取码：jdt5 （[博主下载](https://www.aliyundrive.com/drive/folder/632fc61dffa63d85cedc4393bb4f32d8a09fbed5)）
+
+Malware-Patch（阻止流氓软件的安装）：https://github.com/the1812/Malware-Patch
+
+LockHunter（解锁进程，强行删除）：https://lockhunter.com/
+
+keyviz（键盘可视化）：https://github.com/mulaRahul/keyviz
+
+Notepad Next（Notepad++的仿品/替换品）：https://github.com/dail8859/NotepadNext
+
+**火山语音合成助手 by 吾爱破解（小说文字转语音）**：http://www.downxia.com/downinfo/405212.html
+
+以上全为博主收藏，不断更新中~
