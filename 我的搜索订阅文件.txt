@@ -18,7 +18,7 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/%E7%AE%80%E8%A6%81%E5%B0%8F%E6%95%99%E7%A8%8B.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8F%92%E4%BB%B6.md fetchFun="sLineFetchFun" />
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8F%92%E4%BB%B6%E6%88%96%E8%84%9A%E6%9C%AC.md fetchFun="mLineFetchFun" />
 
 
 
