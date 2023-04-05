@@ -5,8 +5,6 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/deploy-template/master/docs/1_Linux基本运维命令/概述.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/收藏的标签.md fetchFun="sLineFetchFun" />
-
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/杂七杂八.md fetchFun="mLineFetchFun" />
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/搜索专区.md fetchFun="sLineFetchFun" />
@@ -17,7 +15,6 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/简要小教程.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/浏览器插件或脚本.md fetchFun="mLineFetchFun" />
 
 
 
