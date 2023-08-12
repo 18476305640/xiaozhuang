@@ -1,0 +1,22 @@
+# [script]密码填充（填充你预配置的账号和密码）
+-- var --
+_autoRun false
+_store KEY:passwordFill
+
+
+-- script -- 
+function ( {_store,_input,_selector} ) {
+
+
+
+}
+
+-- view:custom --
+<style>
+
+
+</style>
+<view>
+
+</view>
+
