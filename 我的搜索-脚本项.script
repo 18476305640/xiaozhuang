@@ -6,7 +6,7 @@ _store KEY:passwordFill
 
 -- script -- 
 function ( {cache,$} ) {
-  $("input[name='username']").val("2119299531@qq.com")
+  $("input[type='password']").val("gkmzjazn")
 }
 
 -- view:custom --
