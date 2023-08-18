@@ -5,8 +5,8 @@ _store KEY:passwordFill
 
 
 -- script -- 
-function ( {_store,_input,_selector} ) {
-  alert("Hello,Wrold! 脚本成功执行！")
+function ( {cache,$} ) {
+  $("input[name='username']").val("2119299531@qq.com")
 }
 
 -- view:custom --
