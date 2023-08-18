@@ -18,7 +18,7 @@ function ( {_store,_input,_selector} ) {
 
 </view>
 
-# [h'脚本']查看新数据项（快捷键Ctrl+Alt+N）
+# [h'脚本'][系统项]查看新数据项（快捷键Ctrl+Alt+N）
 -- script -- 
 function ( {registry} ) {
   registry.searchData.triggerSearchHandle(registry.searchData.specialKeyword.new); 
