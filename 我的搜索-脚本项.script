@@ -18,8 +18,19 @@ function ( {_store,_input,_selector} ) {
 
 </view>
 
-# [h'脚本'][系统项]查看新数据项（快捷键Ctrl+Alt+N）
+# [h'脚本'][系统项]新数据项（快捷键Ctrl+Alt+N）
 -- script -- 
 function ( {registry} ) {
   registry.searchData.triggerSearchHandle(registry.searchData.specialKeyword.new); 
 }
+# [h'脚本'][系统项]历史记录（快捷键Ctrl+Alt+H）
+-- script -- 
+function ( {registry} ) {
+  registry.searchData.triggerSearchHandle(registry.searchData.specialKeyword.history); 
+}
+# [h'脚本'][系统项]高权重项（快捷键Ctrl+Alt+F）
+-- script -- 
+function ( {registry} ) {
+  registry.searchData.triggerSearchHandle(registry.searchData.specialKeyword.highFrequency); 
+}
+
