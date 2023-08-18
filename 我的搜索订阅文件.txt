@@ -11,6 +11,9 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/我的搜索-脚本项.script fetchFun="mLineFetchFun" />
+
+
 
 
 
