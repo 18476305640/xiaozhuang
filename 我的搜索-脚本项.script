@@ -6,7 +6,7 @@ _store KEY:passwordFill
 
 -- script -- 
 function ( {cache,$} ) {
-  $("input[type='password']").val("gkmzjazn")
+  alert("开发中！");
 }
 
 -- view:custom --
