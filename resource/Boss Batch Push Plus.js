@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Boss Batch Push [Boss直聘批量投简历]
+// @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
 // @version      1.1.9
@@ -2009,5 +2009,4 @@ GM_registerMenuCommand("清空所有存储!", async () => {
         });
     }
 })();
-
 
