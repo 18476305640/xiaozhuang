@@ -3,7 +3,7 @@
 // @description  boss直聘批量简历投递
 // @namespace    maple
 // @version      2.1.0
-// @author       maple,Ocyss
+// @author       maple,Ocyss,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
 // @match        https://www.zhipin.com/*
