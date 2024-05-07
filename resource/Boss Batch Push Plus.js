@@ -2010,11 +2010,4 @@ GM_registerMenuCommand("清空所有存储!", async () => {
     }
 })();
 
-(function() {
-    window.addEventListener('beforeunload', function (e) {
-        // 阻止默认行为
-        e.preventDefault();
-        // 兼容旧版IE
-        e.returnValue = '你确定要离开吗?';
-    });
-})();
+
