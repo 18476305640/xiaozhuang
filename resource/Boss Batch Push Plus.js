@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
+// @name         Boss Batch Push [Boss直聘批量投简历]
 // @description  boss直聘批量简历投递
 // @namespace    maple
 // @version      1.1.9
@@ -198,7 +198,12 @@ class Tools {
             if (!configArr[i]) {
                 continue
             }
-            let re = new RegExp("(?<!(不|无).{0,5})" + configArr[i] + "(?!系统|软件|工具|服务)");
+            function escapeRegExp(string) {
+                // 使用正则表达式替换所有特殊正则字符
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+            let safeConfig = escapeRegExp(configArr[i]);
+            let re = new RegExp("(?<!(不|无).{0,5})" + safeConfig + "(?!系统|软件|工具|服务)");
             if (re.test(content)) {
                 return configArr[i];
             }
@@ -327,6 +332,8 @@ class OperationPanel {
         this.jnInInputLab = null
         // job内容排除输入框lab
         this.jcExInputLab = null
+        // job内容包含输入框lab
+        this.jcInInputLab = null
         // 薪资范围输入框lab
         this.srInInputLab = null
         // 公司规模范围输入框lab
@@ -441,6 +448,7 @@ class OperationPanel {
         this.jnInInputLab = DOMApi.createInputTag("工作名包含", this.scriptConfig.getJobNameInclude());
         this.positionNames = DOMApi.createInputTag("搜索关键字loop", this.scriptConfig.getPositionNames());
         this.jcExInputLab = DOMApi.createInputTag("工作内容排除", this.scriptConfig.getJobContentExclude());
+        this.jcInInputLab = DOMApi.createInputTag("工作内容包含", this.scriptConfig.getJobContentInclude());
         this.srInInputLab = DOMApi.createInputTag("薪资范围", this.scriptConfig.getSalaryRange());
         this.csrInInputLab = DOMApi.createInputTag("公司规模范围", this.scriptConfig.getCompanyScaleRange());
         this.selfGreetInputLab = DOMApi.createInputTag("自定义招呼语", this.scriptConfig.getSelfGreet());
@@ -457,6 +465,7 @@ class OperationPanel {
         inputContainerDiv.appendChild(this.jnInInputLab)
         inputContainerDiv.appendChild(this.positionNames)
         inputContainerDiv.appendChild(this.jcExInputLab)
+        inputContainerDiv.appendChild(this.jcInInputLab)
         inputContainerDiv.appendChild(this.srInInputLab)
         inputContainerDiv.appendChild(this.csrInInputLab)
         inputContainerDiv.appendChild(this.selfGreetInputLab)
@@ -798,6 +807,7 @@ class OperationPanel {
         this.scriptConfig.setJobNameInclude(DOMApi.getInputVal(this.jnInInputLab))
         this.scriptConfig.setPositionNames(DOMApi.getInputVal(this.positionNames))
         this.scriptConfig.setJobContentExclude(DOMApi.getInputVal(this.jcExInputLab))
+        this.scriptConfig.setJobContentInclude(DOMApi.getInputVal(this.jcInInputLab))
         this.scriptConfig.setSalaryRange(DOMApi.getInputVal(this.srInInputLab))
         this.scriptConfig.setCompanyScaleRange(DOMApi.getInputVal(this.csrInInputLab))
         this.scriptConfig.setSelfGreet(DOMApi.getInputVal(this.selfGreetInputLab))
@@ -880,6 +890,8 @@ class ScriptConfig extends TampermonkeyApi {
     static positionKey = "positionInNameInclude"
     // job内容排除输入框lab
     static jcExKey = "jobContentExclude"
+    // 工作内容包含输入框lab
+    static jcInKey = "jobContentInclude";
     // 薪资范围输入框lab
     static srInKey = "salaryRange"
     // 公司规模范围输入框lab
@@ -953,6 +965,9 @@ class ScriptConfig extends TampermonkeyApi {
     getJobContentExclude(isArr) {
         return this.getArrConfig(ScriptConfig.jcExKey, isArr);
     }
+    getJobContentInclude(isArr) {
+        return this.getArrConfig(ScriptConfig.jcInKey, isArr);
+    }
 
     getJobNameInclude(isArr) {
         return this.getArrConfig(ScriptConfig.jnInKey, isArr);
@@ -993,6 +1008,10 @@ class ScriptConfig extends TampermonkeyApi {
 
     setJobContentExclude(val) {
         this.configObj[ScriptConfig.jcExKey] = val.split(",");
+    }
+
+    setJobContentInclude(val) {
+        this.configObj[ScriptConfig.jcInKey] = val.split(",");
     }
 
 
@@ -1128,30 +1147,34 @@ class BossDOMApi {
 
 }
 
-// 定义函数jobNameMatch
-function jobNameMatch(jobs, pageJobName) {
+// 定义函数：或与匹配，解析"a&b,A" 忽略大小写
+function orAndMatch(jobs, pageJobName) {
+    // 首先，将页面职位名称转换为小写，以便进行不区分大小写的匹配
+    const lowerCasePageJobName = pageJobName.toLowerCase();
+
     for (let job of jobs) {
-        // 如果job包含"&"，那么就把这个job按照"&"转成数组
-        if (job.includes('&')) {
-            const subJobs = job.split('&');
-            // 对于每个subJob，需要在pageJobName中都找到对应的内容才说明这个job匹配，如果有一个找不到则说明不匹配
-            if (!subJobs.every(subJob => pageJobName.includes(subJob.trim()))) {
+        // 将职位名称也转换为小写
+        const lowerCaseJob = job.toLowerCase();
+
+        // 如果job包含"&"，需要按照"&"分割成数组，并检查所有项是否匹配
+        if (lowerCaseJob.includes('&')) {
+            const subJobs = lowerCaseJob.split('&');
+            // 检查所有subJobs是否都在页面职位名称中存在
+            if (!subJobs.every(subJob => lowerCasePageJobName.includes(subJob.trim()))) {
                 continue;
             }
         } else {
-            // 如果job不包含"&"，则只需要在pageJobName中找到对应的内容就匹配
-            if (!pageJobName.includes(job.trim())) {
+            // 如果job不包含"&"，则只需要检查job是否存在于页面职位名称中
+            if (!lowerCasePageJobName.includes(lowerCaseJob.trim())) {
                 continue;
             }
         }
-        console.log(jobs, pageJobName,'匹配')
 
-        // 如果执行到这里则说明找到了匹配的job，返回true
+        // 找到匹配的职位名称，返回true
         return true;
     }
 
-    console.log(jobs, pageJobName,'不匹配')
-    // 如果循环结束都没有找到匹配的职位，则返回false
+    // 如果遍历完所有职位名称都没有匹配，返回false
     return false;
 }
 class JobListPageHandler {
@@ -1298,12 +1321,16 @@ class JobListPageHandler {
         }
         let jobList = BossDOMApi.getJobList();
         logger.debug("jobList", jobList)
-        let process = Array.from(jobList).reduce((promiseChain, jobTag) => {
+        let process = Array.from(jobList).reduce(async (promiseChain, jobTag) => {
             let jobTitle = BossDOMApi.getJobTitle(jobTag);
+            const that = this;
+            let jobCardJson;
+            async function requestJobCardJson() {
+                return (jobCardJson = await that.reqJobDetail(jobTag));
+            }
             return promiseChain
-                .then(() => this.matchJobPromise(jobTag))
-                .then(() => this.reqJobDetail(jobTag))
-                .then(jobCardJson => this.jobDetailFilter(jobTag, jobCardJson))
+                .then(() => this.matchJobPromise(jobTag,requestJobCardJson))
+                .then(() => this.jobDetailFilter(jobTag, jobCardJson))
                 .then(() => this.sendPublishReq(jobTag))
                 .then(publishResult => this.handlerPublishResult(jobTag, publishResult, publishResultCount))
                 .catch(error => {
@@ -1391,8 +1418,7 @@ class JobListPageHandler {
     jobDetailFilter(jobTag, jobCardJson) {
         let jobTitle = BossDOMApi.getJobTitle(jobTag);
 
-        return new Promise((resolve, reject) => {
-
+        return new Promise(async (resolve, reject) => {
             // 工作详情活跃度检查
             let activeCheck = TampermonkeyApi.GmGetValue(ScriptConfig.ACTIVE_ENABLE, true);
             let activeTimeDesc = jobCardJson.activeTimeDesc;
@@ -1519,19 +1545,19 @@ class JobListPageHandler {
         })
     }
 
-    matchJobPromise(jobTag) {
-        return new Promise(((resolve, reject) => {
-            if (!this.matchJob(jobTag)) {
+    matchJobPromise(jobTag,requestJobCardJson) {
+        return new Promise((async (resolve, reject) => {
+            const matchResult = await this.matchJob(jobTag,requestJobCardJson);
+            if (!matchResult) {
                 return reject(new JobNotMatchExp())
             }
             return resolve(jobTag)
         }))
     }
 
-    matchJob(jobTag) {
+    async matchJob(jobTag,requestJobCardJson) {
         let jobTitle = BossDOMApi.getJobTitle(jobTag);
         let pageCompanyName = BossDOMApi.getCompanyName(jobTag);
-
         // 不满足配置公司名
         if (!Tools.fuzzyMatch(this.scriptConfig.getCompanyNameInclude(true),
             pageCompanyName, true)) {
@@ -1550,13 +1576,11 @@ class JobListPageHandler {
 
         // 不满足配置工作名
         let pageJobName = BossDOMApi.getJobName(jobTag);
-        console.log('工作名是否匹配：',jobNameMatch(this.scriptConfig.getJobNameInclude(true),pageJobName))
-        if (!jobNameMatch(this.scriptConfig.getJobNameInclude(true),pageJobName)) {
+        if (!orAndMatch(this.scriptConfig.getJobNameInclude(true),pageJobName)) {
             logger.debug("当前工作名：" + pageJobName)
             logger.info("当前job被过滤：【" + jobTitle + "】 原因：不满足配置工作名")
             return false;
         }
-        console.log('找到合适的工作名：',pageJobName)
 
         // 不满足新增范围
         let pageSalaryRange = BossDOMApi.getSalaryRange(jobTag);
@@ -1578,6 +1602,14 @@ class JobListPageHandler {
 
         if (!BossDOMApi.isNotCommunication(jobTag)) {
             logger.info("当前job被过滤：【" + jobTitle + "】 原因：已经沟通过")
+            return false;
+        }
+        // 看工作内容是否满足（这里最后请求，因为非必要请求请求多了将导致账号检测出异常）
+        const jobCardJson = await requestJobCardJson();
+        const jobContentMismatch = orAndMatch(this.scriptConfig.getJobContentInclude(true), jobCardJson.postDescription)
+        if (!jobContentMismatch) {
+            logger.debug("当前job工作内容：" + jobCardJson.postDescription)
+            logger.info(`当前job被过滤：【${jobTitle}】 原因：不满足工作内容(${jobContentMismatch})`)
             return false;
         }
 
@@ -1978,11 +2010,11 @@ GM_registerMenuCommand("清空所有存储!", async () => {
     }
 })();
 
-// (function() {
-//     window.addEventListener('beforeunload', function (e) {
-//         // 阻止默认行为
-//         e.preventDefault();
-//         // 兼容旧版IE
-//         e.returnValue = '你确定要离开吗?';
-//     });
-// })();
+(function() {
+    window.addEventListener('beforeunload', function (e) {
+        // 阻止默认行为
+        e.preventDefault();
+        // 兼容旧版IE
+        e.returnValue = '你确定要离开吗?';
+    });
+})();
