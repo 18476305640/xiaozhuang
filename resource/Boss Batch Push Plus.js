@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.2.0
+// @version      1.3.0
 // @author       maple,Ocyss,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
