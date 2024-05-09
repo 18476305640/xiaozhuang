@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.3.0
+// @version      1.4.0
 // @author       maple,Ocyss,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -1251,7 +1251,7 @@ class JobListPageHandler {
         const activityAreas = document.querySelectorAll(".dropdown-area-list .active");
         if(activityAreas.length === 0) return "*";
         if(activityAreas.length > 1) return "[Invalid_this_time]"; // 本次无效，会重新来
-        return (activityAreas[0].innerText || '').replace(/\s*<.*>\s*/g, '').trim()
+        return (activityAreas[0].innerHTML || '').replace(/\s*<.*>\s*/g, '').trim()
     }
     // 获取下一个搜索区域
     getNextSearchArea() {
@@ -2061,3 +2061,4 @@ GM_registerMenuCommand("清空所有存储!", async () => {
         });
     }
 })();
+
