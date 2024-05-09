@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      2.1.0
+// @version      1.2.0
 // @author       maple,Ocyss,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -196,14 +196,15 @@ class Tools {
     static semanticMatch(configArr, content) {
         for (let i = 0; i < configArr.length; i++) {
             if (!configArr[i]) {
-                continue
+                continue;
             }
             function escapeRegExp(string) {
                 // 使用正则表达式替换所有特殊正则字符
                 return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             }
             let safeConfig = escapeRegExp(configArr[i]);
-            let re = new RegExp("(?<!(不|无).{0,5})" + safeConfig + "(?!系统|软件|工具|服务)");
+            // 添加了 'i' 标志以忽略大小写
+            let re = new RegExp("(?<!(不|无).{0,5})" + safeConfig + "(?!系统|软件|工具|服务)", 'i');
             if (re.test(content)) {
                 return configArr[i];
             }
@@ -211,7 +212,7 @@ class Tools {
     }
 
     static bossIsActive(activeText) {
-        return !(activeText.includes("月") || activeText.includes("年"));
+        return !(activeText.includes("月") || activeText.includes("年") || activeText.includes("周"));
     }
 
     static getRandomNumber(startMs, endMs) {
@@ -333,6 +334,8 @@ class OperationPanel {
         // job内容排除输入框lab
         this.jcExInputLab = null
         // job内容包含输入框lab
+        this.areaLoopInputLab = null
+        // job地区loop lab
         this.jcInInputLab = null
         // 薪资范围输入框lab
         this.srInInputLab = null
@@ -368,6 +371,7 @@ class OperationPanel {
             "排除公司名：投递工作的公司名一定不在当前集合中，也就是排除当前集合中的公司，模糊匹配，多个使用逗号分割。例子：【xxx外包】",
             "排除工作内容：会自动检测上文(不是,不,无需等关键字),下文(系统,工具),例子：【外包,上门,销售,驾照】，如果写着是'不是外包''销售系统'那也不会被排除",
             "Job名包含：投递工作的名称一定包含在当前集合中，模糊匹配，多个使用逗号分割。还可以使用&，比如【python&后端,java后端】那job名需要包含‘python’且‘后端’或者只包含‘java后端’。",
+            "搜索地区loop：如“*”表示不限地区,普通值为地区名；每一个大轮换一个地区搜索。如“*,天河区”会不限地区进行一次“搜索地区loop”，那下一次是“天河区”进行一次“搜索地区loop”",
             "搜索关键字loop：如【java实习,前端实习】如果本轮是‘java实习’那下一轮是‘前端实习’，如果当前搜索的不在配置内，也会在此会话中临时加入。",
             "薪资范围：投递工作的薪资范围一定在当前区间中，一定是区间，使用-连接范围。例如：【12-20】",
             "公司规模范围：投递工作的公司人员范围一定在当前区间中，一定是区间，使用-连接范围。例如：【500-20000000】",
@@ -446,6 +450,7 @@ class OperationPanel {
         this.cnInInputLab = DOMApi.createInputTag("公司名包含", this.scriptConfig.getCompanyNameInclude());
         this.cnExInputLab = DOMApi.createInputTag("公司名排除", this.scriptConfig.getCompanyNameExclude());
         this.jnInInputLab = DOMApi.createInputTag("工作名包含", this.scriptConfig.getJobNameInclude());
+        this.searchAreaLoopInputLab = DOMApi.createInputTag("地区搜索loop", this.scriptConfig.getAreaLoop());
         this.positionNames = DOMApi.createInputTag("搜索关键字loop", this.scriptConfig.getPositionNames());
         this.jcExInputLab = DOMApi.createInputTag("工作内容排除", this.scriptConfig.getJobContentExclude());
         this.jcInInputLab = DOMApi.createInputTag("工作内容包含", this.scriptConfig.getJobContentInclude());
@@ -463,6 +468,7 @@ class OperationPanel {
         inputContainerDiv.appendChild(this.cnInInputLab)
         inputContainerDiv.appendChild(this.cnExInputLab)
         inputContainerDiv.appendChild(this.jnInInputLab)
+        inputContainerDiv.appendChild(this.searchAreaLoopInputLab)
         inputContainerDiv.appendChild(this.positionNames)
         inputContainerDiv.appendChild(this.jcExInputLab)
         inputContainerDiv.appendChild(this.jcInInputLab)
@@ -808,6 +814,7 @@ class OperationPanel {
         this.scriptConfig.setPositionNames(DOMApi.getInputVal(this.positionNames))
         this.scriptConfig.setJobContentExclude(DOMApi.getInputVal(this.jcExInputLab))
         this.scriptConfig.setJobContentInclude(DOMApi.getInputVal(this.jcInInputLab))
+        this.scriptConfig.setJobAreaLoop(DOMApi.getInputVal(this.searchAreaLoopInputLab))
         this.scriptConfig.setSalaryRange(DOMApi.getInputVal(this.srInInputLab))
         this.scriptConfig.setCompanyScaleRange(DOMApi.getInputVal(this.csrInInputLab))
         this.scriptConfig.setSelfGreet(DOMApi.getInputVal(this.selfGreetInputLab))
@@ -892,6 +899,8 @@ class ScriptConfig extends TampermonkeyApi {
     static jcExKey = "jobContentExclude"
     // 工作内容包含输入框lab
     static jcInKey = "jobContentInclude";
+    // 工作地区loop输入框lab
+    static areaLoopKey = "areaLoopKey";
     // 薪资范围输入框lab
     static srInKey = "salaryRange"
     // 公司规模范围输入框lab
@@ -899,7 +908,6 @@ class ScriptConfig extends TampermonkeyApi {
     // 自定义招呼语输入框
     static sgInKey = "sendSelfGreet"
     static SEND_SELF_GREET_MEMORY = "sendSelfGreetMemory"
-
 
     constructor() {
         super();
@@ -968,7 +976,9 @@ class ScriptConfig extends TampermonkeyApi {
     getJobContentInclude(isArr) {
         return this.getArrConfig(ScriptConfig.jcInKey, isArr);
     }
-
+    getAreaLoop(isArr) {
+        return this.getArrConfig(ScriptConfig.areaLoopKey,isArr);
+    }
     getJobNameInclude(isArr) {
         return this.getArrConfig(ScriptConfig.jnInKey, isArr);
     }
@@ -992,7 +1002,7 @@ class ScriptConfig extends TampermonkeyApi {
 
 
     setCompanyNameInclude(val) {
-        return this.configObj[ScriptConfig.cnInKey] = val.split(",");
+        this.configObj[ScriptConfig.cnInKey] = val.split(",");
     }
 
     setCompanyNameExclude(val) {
@@ -1001,6 +1011,10 @@ class ScriptConfig extends TampermonkeyApi {
 
     setJobNameInclude(val) {
         this.configObj[ScriptConfig.jnInKey] = val.split(",");
+    }
+
+    setJobAreaLoop(val) {
+        this.configObj[ScriptConfig.areaLoopKey] = val.split(",");;
     }
     setPositionNames (val) {
         this.configObj[ScriptConfig.positionKey] = val.split(",");
@@ -1047,6 +1061,7 @@ class ScriptConfig extends TampermonkeyApi {
         let configStr = JSON.stringify(this.configObj);
         TampermonkeyApi.GmSetValue(ScriptConfig.LOCAL_CONFIG, configStr);
         logger.info("存储配置到本地储存", configStr)
+        alert(`保存配置成功!`)
     }
 
     /**
@@ -1232,6 +1247,38 @@ class JobListPageHandler {
         if(currentKeywordIndex == -1 || currentKeywordIndex >= positions.length-1) return positions[0];
         return positions[currentKeywordIndex+1]
     }
+    getCurrentSearchArea() {
+        const activityAreas = document.querySelectorAll(".dropdown-area-list .active");
+        if(activityAreas.length === 0) return "*";
+        if(activityAreas.length > 1) return "[Invalid_this_time]"; // 本次无效，会重新来
+        return (activityAreas[0].innerText || '').replace(/\s*<.*>\s*/g, '').trim()
+    }
+    // 获取下一个搜索区域
+    getNextSearchArea() {
+        const searchAreas = this.scriptConfig.getAreaLoop(true) ?? []
+        let currentSearchArea = this.getCurrentSearchArea();
+        let currentIndex = searchAreas.indexOf(currentSearchArea)
+        if(currentIndex == -1 || currentIndex >= searchAreas.length-1) return searchAreas[0];
+        return searchAreas[currentIndex+1]
+    }
+    // 模拟点击地区
+    chooseSearchArea(searchAreaNames) {
+        if (searchAreaNames == null || searchAreaNames.length === 0) return;
+        const targetElements = Array.from(document.querySelectorAll(".dropdown-area-list:nth-child(1) > li"));
+        if (targetElements == null || targetElements.length === 0) return;
+        // 选出目标
+        let filterTargetElements = targetElements.filter(element =>searchAreaNames.includes(element.innerHTML.trim().replace(/\s*<.*>\s*/, "")));
+        const clickTimeInterval = 460;
+        let currentIntervalTime = 0;
+        // 先重置
+        targetElements[0].click();
+        // 过滤掉“*”，因为“*”表示不限，刚才已经重置实现
+        filterTargetElements = filterTargetElements.filter(e=>e !== "*")
+        // 再点击选择
+        filterTargetElements.forEach(targetElement=>{
+            setTimeout(()=>targetElement.click(),currentIntervalTime+=clickTimeInterval)
+        })
+    }
     // 下一个关键词是否从头开始
     isNextKeywordFirstKeyword() {
         const positions = this.getPositionNames()
@@ -1299,7 +1346,12 @@ class JobListPageHandler {
                 // 换一个职位搜索
                 const nextKeyword = this.getNextKeyword();
                 const waitTime = this.isNextKeywordFirstKeyword()?bigLoopIntervalTime:loopIntervalTime;
-                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}开始等待${waitTime/1000}秒钟,下一个职位是：${nextKeyword}`)
+                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}开始等待${waitTime/1000}秒钟,下一个职位是：${nextKeyword}${this.isNextKeywordFirstKeyword()?',&nbsp;&nbsp;搜索地区切换为：'+this.getNextSearchArea():''}`)
+                if(this.isNextKeywordFirstKeyword()) {
+                    // 切换地区
+                    this.chooseSearchArea([this.getNextSearchArea()])
+                }
+                // 切换
                 this.searchJob(nextKeyword);
                 // 一轮的
                 setTimeout(() => this.loopPublish(),waitTime )
@@ -2000,7 +2052,7 @@ GM_registerMenuCommand("清空所有存储!", async () => {
 
     if (document.URL.includes(list_url) || document.URL.includes(recommend_url)) {
         window.addEventListener("load", () => {
-            new JobListPageHandler()
+            window.jobListPageHandler = new JobListPageHandler()
         });
     } else if (document.URL.includes(message_url) && parent?.document?.getElementById('msgIframe')) {
         window.addEventListener("load", () => {
@@ -2009,4 +2061,3 @@ GM_registerMenuCommand("清空所有存储!", async () => {
         });
     }
 })();
-
