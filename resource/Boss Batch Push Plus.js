@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.4.0
+// @version      1.5.0
 // @author       maple,Ocyss,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -1151,7 +1151,7 @@ class BossDOMApi {
     static nextPage() {
         let nextPageBtn = document.querySelector(".ui-icon-arrow-right");
 
-        if (nextPageBtn.parentElement.className === "disabled") {
+        if (nextPageBtn == null || nextPageBtn.parentElement.className === "disabled") {
             // 没有下一页
             return;
 
@@ -1287,16 +1287,16 @@ class JobListPageHandler {
     }
     // 搜索
     searchJob(keyword) {
-        // 返回第一页
-        this.backFirstPage();
         const keywordInput = document.querySelector('.input');
         keywordInput.value = keyword;
         this.clickSeatch()
+        // 返回第一页 搜索后默认就返回第一页了
+        // this.backFirstPage();
     }
     // 点击搜索
     clickSeatch() {
         // 找到具有类名".job_search_btn_click"的元素
-        var btn = document.querySelector(".job_search_btn_click");
+        var btn = document.querySelector(".search-btn");
 
         // 检查元素是否存在
         if(btn){
@@ -1304,7 +1304,7 @@ class JobListPageHandler {
             btn.click();
             return true;
         }else{
-            console.log("找不到具有类名'.job_search_btn_click'的元素");
+            console.log("找不到具有类名'.search-btn'的元素");
             return false;
         }
     }
@@ -1314,7 +1314,7 @@ class JobListPageHandler {
         // 获取职位pool list
         const positions = this.getPositionNames()
         // 等待的时间常数
-        const bigLoopIntervalTime = 10*60*1000; // 一个大轮的等待间隔
+        const bigLoopIntervalTime = 15*60*1000; // 一个大轮的等待间隔
         const loopIntervalTime = 30*1000; // 一轮的等待间隔
         const entryNextPageWaitTime = 3*1000; // 一页的等待间隔
         // 等待处理完当前页的jobList在投递下一页
@@ -2061,4 +2061,3 @@ GM_registerMenuCommand("清空所有存储!", async () => {
         });
     }
 })();
-
