@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.5.2
+// @version      1.5.5
 // @author       maple,Ocyss,忒星,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -719,7 +719,10 @@ class OperationPanel {
     /*-------------------------------------------------操作面板事件处理--------------------------------------------------*/
 
 
-    batchPushBtnHandler() {
+    async batchPushBtnHandler() {
+        // 处理程序-前置操作
+        await this.jobListHandler.batchPushHandlerPreProcessor();
+        // 处理程序
         this.jobListHandler.batchPushHandler()
 
     }
@@ -1253,8 +1256,18 @@ class JobListPageHandler {
 
         this.loopPublish()
     }
+    // changeBatchPublishState前置处理器
+    async batchPushHandlerPreProcessor() {
+        if(this.getSearchInputElement().value.trim().length > 0) return
+        // 如果搜索keyword为空，选择第一个loop keyword与第一个loop area来
+        // - first loop keyword
+        this.chooseSearchArea(this.getFirstSearchArea())
+        // - first loop area
+        await this.searchJob(this.getFirstKeyword())
+        console.log('前置执行完成')
+    }
+    // 获取loop职业列表
     getPositionNames() {
-        // loop职业列表
         let positions = this.scriptConfig.getPositionNames(true) ?? []
         const keywordInput = document.querySelector('.input');
         let keyword = keywordInput.value;
@@ -1270,7 +1283,7 @@ class JobListPageHandler {
         // 点击第二个a标签
         linkList[1].click();
     }
-    // 获取下一页的keyword
+    // 模拟点击地区-辅助方法：获取下一次的keyword
     getNextKeyword() {
         const positions = this.getPositionNames()
         const keywordInput = document.querySelector('.input');
@@ -1279,13 +1292,14 @@ class JobListPageHandler {
         if(currentKeywordIndex == -1 || currentKeywordIndex >= positions.length-1) return positions[0];
         return positions[currentKeywordIndex+1]
     }
+    // 模拟点击地区-辅助方法：获取当前搜索的区域
     getCurrentSearchArea() {
         const activityAreas = document.querySelectorAll(".dropdown-area-list .active");
         if(activityAreas.length === 0) return "*";
         if(activityAreas.length > 1) return "[Invalid_this_time]"; // 本次无效，会重新来
         return (activityAreas[0].innerHTML || '').replace(/\s*<.*>\s*/g, '').trim()
     }
-    // 获取下一个搜索区域
+    // 模拟点击地区-辅助方法：获取下一个搜索区域
     getNextSearchArea() {
         const searchAreas = this.scriptConfig.getAreaLoop(true) ?? []
         let currentSearchArea = this.getCurrentSearchArea();
@@ -1293,9 +1307,15 @@ class JobListPageHandler {
         if(currentIndex == -1 || currentIndex >= searchAreas.length-1) return searchAreas[0];
         return searchAreas[currentIndex+1]
     }
+    // 模拟点击地区-辅助方法：获取第一个搜索区域
+    getFirstSearchArea() {
+        const searchAreas = this.scriptConfig.getAreaLoop(true) ?? []
+        if(searchAreas == null || searchAreas.length === 0) return null;
+        return searchAreas[0]
+    }
     // 模拟点击地区
     chooseSearchArea(searchAreaNames) {
-        if (searchAreaNames == null || searchAreaNames.length === 0) return;
+        if (searchAreaNames == null || searchAreaNames.length === 0) searchAreaNames = ["*"]
         const targetElements = Array.from(document.querySelectorAll(".dropdown-area-list:nth-child(1) > li"));
         if (targetElements == null || targetElements.length === 0) return;
         // 选出目标
@@ -1311,19 +1331,41 @@ class JobListPageHandler {
             setTimeout(()=>targetElement.click(),currentIntervalTime+=clickTimeInterval)
         })
     }
-    // 下一个关键词是否从头开始
+    // 搜索辅助方法：下一个关键词是否从头开始
     isNextKeywordFirstKeyword() {
         const positions = this.getPositionNames()
         if(positions == null || positions.length === 0) return false
         return this.getNextKeyword() === positions[0]
     }
+    // 搜索辅助方法：获取第一个搜索关键字
+    getFirstKeyword() {
+        const positions = this.getPositionNames()
+        if(positions == null || positions.length === 0) return this.getSearchInputElement().value
+        return positions[0]
+    }
+    // 搜索辅助方法：获取当前正在搜索的keyword
+    getSearchInputElement() {
+        const inputElement = document.querySelector('.input');
+        if(inputElement == null) {
+           alert('脚本：search input element not found!')
+            return;
+        }
+        return inputElement;
+    }
     // 搜索
-    searchJob(keyword) {
-        const keywordInput = document.querySelector('.input');
-        keywordInput.value = keyword;
-        this.clickSeatch()
-        // 返回第一页 搜索后默认就返回第一页了
-        // this.backFirstPage();
+    searchJob(keyword,searchWatchTime = 1500) {
+        return new Promise((resolve,reject)=>{
+            try {
+                const keywordInput = this.getSearchInputElement()
+                if(keyword == null) keyword = keywordInput.value
+                keywordInput.value = keyword;
+                this.clickSeatch()
+                // 返回第一页 搜索后默认就返回第一页了
+                // this.backFirstPage();
+            }finally{
+                setTimeout(()=> resolve(),searchWatchTime)
+            }
+        })
     }
     // 点击搜索
     clickSeatch() {
@@ -1346,9 +1388,9 @@ class JobListPageHandler {
         // 获取职位pool list
         const positions = this.getPositionNames()
         // 等待的时间常数
-        const bigLoopIntervalTime = 15*60*1000; // 一个大轮的等待间隔
-        const loopIntervalTime = 30*1000; // 一轮的等待间隔
-        const entryNextPageWaitTime = 3*1000; // 一页的等待间隔
+        const bigLoopIntervalTime = 18*60*1000; // 一个大轮的等待间隔
+        const loopIntervalTime = 35*1000; // 一轮的等待间隔
+        const entryNextPageWaitTime = 3*1000; // 换下一页的等待间隔
         // 等待处理完当前页的jobList在投递下一页
         let nextPageTask = setInterval(() => {
             if (!this.nextPage) {
@@ -1370,23 +1412,19 @@ class JobListPageHandler {
                 // 点击下一页，需要等待页面元素变化，否则将重复拿到当前页的jobList
                 setTimeout(() => this.loopPublish(), entryNextPageWaitTime)
             }else {
-                console.log('没有下一页')
-                logger.info("投递结束，没有下一页")
-                TampermonkeyApi.GmNotification("本轮投递结束！")
-                this.operationPanel.refreshShow("本轮投递结束！")
-
-                // 换一个职位搜索
+                logger.info("单职位投递结束，没有下一页")
                 const nextKeyword = this.getNextKeyword();
                 const waitTime = this.isNextKeywordFirstKeyword()?bigLoopIntervalTime:loopIntervalTime;
-                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}开始等待${waitTime/1000}秒钟,下一个职位是：${nextKeyword}${this.isNextKeywordFirstKeyword()?',&nbsp;&nbsp;搜索地区切换为：'+this.getNextSearchArea():''}`)
-                if(this.isNextKeywordFirstKeyword()) {
-                    // 切换地区
-                    this.chooseSearchArea([this.getNextSearchArea()])
-                }
-                // 切换
-                this.searchJob(nextKeyword);
-                // 一轮的
-                setTimeout(() => this.loopPublish(),waitTime )
+                this.operationPanel.refreshShow("职位投递结束！")
+                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}开始等待${waitTime/1000}秒钟,下一个职位是：${nextKeyword}${this.isNextKeywordFirstKeyword()?`,&nbsp;&nbsp;搜索地区切换为：${this.getNextSearchArea() === "*"?"不限(*)":this.getNextSearchArea()}`:''}`)
+
+                setTimeout(async () => {
+                    // 如果下个职位是第一个职位还需要切换地区
+                    if(this.isNextKeywordFirstKeyword()) this.chooseSearchArea([this.getNextSearchArea()]);
+                    // 切换到下个职位
+                    await this.searchJob(nextKeyword);
+                    this.loopPublish();
+                },waitTime)
             }
         }, 1200); // 这里setInterval是看当前页是否完成
 
@@ -1503,8 +1541,6 @@ class JobListPageHandler {
         let jobTitle = BossDOMApi.getJobTitle(jobTag);
 
         return new Promise(async (resolve, reject) => {
-            debugger
-
             // 猎头工作岗位检查
             let headhunterCheck = TampermonkeyApi.GmGetValue(ScriptConfig.SEND_HEADHUNTER_ENABLE, true);
             if (headhunterCheck && BossDOMApi.isHeadhunter(jobTag,jobCardJson)) {
