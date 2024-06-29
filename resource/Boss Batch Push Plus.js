@@ -2,16 +2,16 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.5.5
+// @version      1.6.0
 // @author       maple,Ocyss,忒星,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
 // @match        https://www.zhipin.com/*
 // @connect      www.tl.beer
-// @include      https://www.zhipin.com
 // @require      https://unpkg.com/maple-lib@1.0.3/log.js
 // @require      https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js
 // @require      https://cdn.jsdelivr.net/npm/js2wordcloud@1.1.12/dist/js2wordcloud.min.js
+// @require      https://unpkg.com/protobufjs@7.2.6/dist/protobuf.js
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_xmlhttpRequest
@@ -48,8 +48,11 @@ class PublishLimitExp extends BossBatchExp {
 }
 
 class FetchJobDetailFailExp extends BossBatchExp {
-    constructor(msg) {
+    jobTitle = "";
+
+    constructor(jobTitle, msg) {
         super(msg);
+        this.jobTitle = jobTitle;
         this.name = "FetchJobDetailFailExp";
     }
 }
@@ -178,7 +181,8 @@ class Tools {
                 let inputEnd = parseInt(inputMatch[2] || inputMatch[1]);
                 return (
                     (inputStart >= start && inputStart <= end) ||
-                    (inputEnd >= start && inputEnd <= end)
+                    (inputEnd >= start && inputEnd <= end) ||
+                    (inputStart <= start && inputEnd >= end)
                 );
             }
         }
@@ -496,11 +500,8 @@ class OperationPanel {
         // 链接关于
         // 操作按钮
         // 筛选输入框
-        // iframe【详情页投递内部页】
         operationPanel.appendChild(this.buildDocDiv())
         operationPanel.appendChild(inputContainerDiv)
-        // 发送自定义招呼语的iframe
-        operationPanel.appendChild(this.buildMsgPageIframe())
         operationPanel.appendChild(this.showTable)
         // 词云图模态框 加到根节点
         document.body.appendChild(this.buildWordCloudModel())
@@ -603,7 +604,7 @@ class OperationPanel {
     buildDocDiv() {
         const docDiv = DOMApi.createTag("div", "", "margin: 10px 0px; width: 100%;")
         let txtDiv = DOMApi.createTag("div", "", "display: none;");
-        const title = DOMApi.createTag("h3", "ヽ(￣ω￣(￣ω￣〃)ゝ操作说明", "margin: 10px 0px;cursor: pointer;float:right;")
+        const title = DOMApi.createTag("h3", "ヽ(￣ω￣(￣ω￣〃)ゝ使用说明", "margin: 10px 0px;cursor: pointer;float:right;")
 
         docDiv.appendChild(title)
         docDiv.appendChild(txtDiv)
@@ -638,14 +639,6 @@ class OperationPanel {
         })
         return docDiv;
     }
-
-    buildMsgPageIframe() {
-        let msgPageIframe = DOMApi.createTag("iframe", "", "height:1px;width: 1px;");
-        msgPageIframe.src = 'https://www.zhipin.com/web/geek/chat';
-        msgPageIframe.id = 'msgIframe';
-        return msgPageIframe
-    }
-
 
     buildShowTable() {
         return DOMApi.createTag('p', '', 'font-size: 20px;color: rgb(64, 158, 255);margin-left: 50px;');
@@ -832,6 +825,7 @@ class OperationPanel {
         this.scriptConfig.setSalaryRange(DOMApi.getInputVal(this.srInInputLab))
         this.scriptConfig.setCompanyScaleRange(DOMApi.getInputVal(this.csrInInputLab))
         this.scriptConfig.setSelfGreet(DOMApi.getInputVal(this.selfGreetInputLab))
+
     }
 
     storeConfigBtnHandler() {
@@ -1089,7 +1083,7 @@ class ScriptConfig extends TampermonkeyApi {
         let configStr = JSON.stringify(this.configObj);
         TampermonkeyApi.GmSetValue(ScriptConfig.LOCAL_CONFIG, configStr);
         logger.info("存储配置到本地储存", configStr)
-        alert(`保存配置成功!`)
+        alert(`保存配置成功，并已生效!`)
     }
 
     /**
@@ -1114,6 +1108,10 @@ class BossDOMApi {
 
     static getJobList() {
         return document.querySelectorAll(".job-card-wrapper");
+    }
+
+    static getJobDetail(jobTag) {
+        return jobTag.__vue__.data
     }
 
     static getJobTitle(jobTag) {
@@ -1583,8 +1581,26 @@ class JobListPageHandler {
                 publishResultCount.successCount++
                 logger.info("投递成功：" + BossDOMApi.getJobTitle(jobTag))
 
-                // 改变消息key，通知msg页面处理当前job发送自定义招呼语句
-                TampermonkeyApi.GmSetValue(ScriptConfig.PUSH_MESSAGE, JobMessagePageHandler.buildMsgKey(jobTag))
+                // 通过websocket发送自定义消息
+                if (TampermonkeyApi.GmGetValue(ScriptConfig.SEND_SELF_GREET_ENABLE, false) &&
+                    this.scriptConfig.getSelfGreetMemory()) {
+                    let selfGreet = this.scriptConfig.getSelfGreet();
+                    let jobDetail = BossDOMApi.getJobDetail(jobTag);
+                    this.requestBossData(jobDetail).then(bossData => {
+                        new Message({
+                            form_uid: unsafeWindow._PAGE.uid.toString(),
+                            to_uid: bossData.data.bossId.toString(),
+                            to_name: jobDetail.encryptBossId,
+                            content: selfGreet.replace("\\n", "\n").replace(/<br[^>]*>/g, '\n')
+                        }).send()
+                    }).catch(e => {
+                        if (e instanceof FetchJobDetailFailExp) {
+                            logger.warn("发送自定义招呼失败:[ " + e.jobTitle + " ]: " + e.message)
+                        } else {
+                            logger.error("发送自定义招呼失败 ", e)
+                        }
+                    })
+                }
 
                 // 每页投递次数【默认不会走】
                 if (this.selfDefCount !== -1 && publishResultCount.successCount >= this.selfDefCount) {
@@ -1601,7 +1617,37 @@ class JobListPageHandler {
         })
     }
 
-    sendPublishReq(jobTag, errorMsg, retries = 3) {
+    async requestBossData(jobDetail, errorMsg = "", retries = 3) {
+        let jobTitle = jobDetail.jobName + "-" + jobDetail.cityName + jobDetail.areaDistrict + jobDetail.businessDistrict;
+
+        if (retries === 0) {
+            throw new FetchJobDetailFailExp(jobTitle, errorMsg || "获取boss数据重试多次失败");
+        }
+        const url = "https://www.zhipin.com/wapi/zpchat/geek/getBossData";
+        const token = unsafeWindow?._PAGE?.zp_token;
+        if (!token) {
+            throw new FetchJobDetailFailExp(jobTitle, "未获取到zp-token");
+        }
+
+        const data = new FormData();
+        data.append("bossId", jobDetail.encryptBossId);
+        data.append("securityId", jobDetail.securityId);
+        data.append("bossSrc", "0");
+
+        let resp;
+        try {
+            resp = await axios({url, data: data, method: "POST", headers: {Zp_token: token}});
+        } catch (e) {
+            return this.requestBossData(jobDetail, e.message, retries - 1);
+        }
+
+        if (resp.data.code !== 0) {
+            throw new FetchJobDetailFailExp(jobTitle, resp.data.message);
+        }
+        return resp.data.zpData
+    }
+
+    sendPublishReq(jobTag, errorMsg = "", retries = 3) {
         let jobTitle = BossDOMApi.getJobTitle(jobTag);
         if (retries === 3) {
             logger.debug("正在投递：" + jobTitle)
@@ -1747,156 +1793,6 @@ class JobListPageHandler {
         return true;
     }
 }
-
-class JobMessagePageHandler {
-
-    constructor() {
-        this.scriptConfig = new ScriptConfig();
-        this.init()
-    }
-
-    init() {
-        this.registerEvent();
-    }
-
-    registerEvent() {
-        TampermonkeyApi.GmAddValueChangeListener(ScriptConfig.PUSH_MESSAGE, this.pushAlterMsgHandler.bind(this))
-        logger.debug("注册投递推送消费者成功")
-    }
-
-    /**
-     * 投递后发送自定义打招呼语句【发送自定义消息】
-     */
-    pushAlterMsgHandler(key, oldValue, newValue, isOtherScriptChange) {
-        logger.debug("投递后推送自定义招呼语消费者", {key, oldValue, newValue, isOtherScriptChange})
-        if (!isOtherScriptChange) {
-            return;
-        }
-        if (oldValue === newValue) {
-            return;
-        }
-
-        // 是否打开配置
-        if (!TampermonkeyApi.GmGetValue(ScriptConfig.SEND_SELF_GREET_ENABLE, false)) {
-            return;
-        }
-
-        let selfGreetMsg = this.getSelfGreet();
-        if (!selfGreetMsg) {
-            logger.debug("自定义招呼语为空结束")
-            return;
-        }
-
-        let count = 0;
-        let process = Promise.resolve()
-        let sendMsgTask = setInterval(() => {
-            process.then(() => {
-                if (++count >= 5) {
-                    logger.debug("发送自定义打招呼语句超时结束")
-                    clearInterval(sendMsgTask);
-                    return;
-                }
-                return new Promise((resolve, reject) => {
-                    let msgTag = JobMessagePageHandler.selectMessage(newValue);
-                    if (!msgTag) {
-                        return reject();
-                    }
-                    // 点击当前待处理的消息框
-                    msgTag.click();
-                    logger.debug("选中消息", msgTag)
-                    return resolve();
-                })
-            }).then(() => {
-                return new Promise((resolve, reject) => {
-                    if (!JobMessagePageHandler.ableInput()) {
-                        return reject();
-                    }
-                    return resolve();
-                })
-            }).then(() => {
-                return new Promise((resolve => {
-                    JobMessagePageHandler.inputMsg(selfGreetMsg)
-                    return resolve();
-                }))
-            }).then(() => {
-                return new Promise(((resolve, reject) => {
-                    if (!JobMessagePageHandler.sendAble()) {
-                        return reject();
-                    }
-                    return resolve();
-                }))
-            }).then(() => {
-                return new Promise((resolve => {
-                    JobMessagePageHandler.sendMsg()
-                    logger.info("推送自定义招呼语成功：" + newValue)
-                    clearInterval(sendMsgTask)
-                    return resolve()
-                }))
-            }).catch(() => {
-                // 不报错
-            })
-        }, 300);
-    }
-
-    getSelfGreet() {
-        return this.scriptConfig.getSelfGreetMemory();
-    }
-
-    static buildMsgKey(jobTag) {
-        let companyName = BossDOMApi.getCompanyName(jobTag);
-        let bossNameAndPosition = BossDOMApi.getBossNameAndPosition(jobTag);
-
-        let bossName = bossNameAndPosition[0];
-        let bossPositionNames = bossNameAndPosition[1];
-        return bossName + companyName + bossPositionNames;
-    }
-
-    static ableInput() {
-        return document.querySelector(".chat-input") && document.querySelector(".chat-im.chat-editor");
-    }
-
-    static inputMsg(msg) {
-        // <br> \n 都可以换行
-        return document.querySelector(".chat-input").innerHTML = msg.replaceAll("\\n", "\n");
-    }
-
-    static sendAble() {
-        let btn = document.querySelector(".btn-v2.btn-sure-v2.btn-send");
-        // 删除按钮标签类名；按钮可点击
-        btn.classList.remove("disabled");
-        return btn;
-    }
-
-    static sendMsg() {
-        // 当前标签绑定的vue组件对象，
-        let chatFrameVueComponent = document.querySelector(".chat-im.chat-editor").__vue__;
-        // 更新开启提交；否则提交拦截
-        chatFrameVueComponent.enableSubmit = true;
-        // 赋值发送websocket的to.uid;手动触发导致uid无值，从friendId获取
-        chatFrameVueComponent.bossInfo$.uid = chatFrameVueComponent.bossInfo$.friendId;
-        let element = document.querySelector(".btn-v2.btn-sure-v2.btn-send");
-        element.click();
-    }
-
-    static getMessageListTag() {
-        return document.querySelector(".user-list").querySelector("div").querySelectorAll("li");
-    }
-
-    static selectMessage(messageKey) {
-        let messageListTag = JobMessagePageHandler.getMessageListTag();
-        for (let i = 0; i < messageListTag.length; i++) {
-            // '09月02日\n刘女士赛德勤人事行政专员\n您好，打扰了，我想和您聊聊这个职位。'
-            // 日期\n【boss名+公司名+职位名】\n 问候语
-            let msgTitle = messageListTag[i].innerText;
-            if (msgTitle.split("\n")[1] === messageKey) {
-                return messageListTag[i].querySelector("div");
-            }
-        }
-
-        logger.debug("本次循环消息key未检索到消息框: " + messageKey)
-    }
-}
-
 
 class JobWordCloud {
 
@@ -2057,6 +1953,78 @@ class JobWordCloud {
 
 }
 
+class Message {
+
+    static AwesomeMessage;
+    static {
+        let Type = protobuf.Type, Field = protobuf.Field;
+        const root = new protobuf.Root()
+            .define("cn.techwolf.boss.chat")
+            .add(new Type("TechwolfUser")
+                .add(new Field("uid", 1, "int64"))
+                .add(new Field("name", 2, "string", "optional"))
+                .add(new Field("source", 7, "int32", "optional")))
+            .add(new Type("TechwolfMessageBody")
+                .add(new Field("type", 1, "int32"))
+                .add(new Field("templateId", 2, "int32", "optional"))
+                .add(new Field("headTitle", 11, "string"))
+                .add(new Field("text", 3, "string")))
+            .add(new Type("TechwolfMessage")
+                .add(new Field("from", 1, "TechwolfUser"))
+                .add(new Field("to", 2, "TechwolfUser"))
+                .add(new Field("type", 3, "int32"))
+                .add(new Field("mid", 4, "int64", "optional"))
+                .add(new Field("time", 5, "int64", "optional"))
+                .add(new Field("body", 6, "TechwolfMessageBody"))
+                .add(new Field("cmid", 11, "int64", "optional")))
+            .add(new Type("TechwolfChatProtocol")
+                .add(new Field("type", 1, "int32"))
+                .add(new Field("messages", 3, "TechwolfMessage", "repeated")));
+        Message.AwesomeMessage = root.lookupType("TechwolfChatProtocol");
+    }
+
+    constructor({form_uid, to_uid, to_name, content,}) {
+        const r = new Date().getTime();
+        const d = r + 68256432452609;
+        const data = {
+            messages: [
+                {
+                    from: {
+                        uid: form_uid,
+                        source: 0,
+                    },
+                    to: {
+                        uid: to_uid,
+                        name: to_name,
+                        source: 0,
+                    },
+                    type: 1,
+                    mid: d.toString(),
+                    time: r.toString(),
+                    body: {
+                        type: 1,
+                        templateId: 1,
+                        text: content,
+                    },
+                    cmid: d.toString(),
+                },
+            ],
+            type: 1,
+        };
+        this.msg = Message.AwesomeMessage.encode(data).finish().slice();
+        this.hex = [...this.msg]
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join("");
+    }
+
+    toArrayBuffer() {
+        return this.msg.buffer.slice(0, this.msg.byteLength);
+    }
+
+    send() {
+        unsafeWindow.ChatWebsocket.send(this);
+    }
+}
 
 GM_registerMenuCommand("切换Ck", async () => {
     let value = GM_getValue("ck_list") || [];
@@ -2127,16 +2095,10 @@ GM_registerMenuCommand("清空所有存储!", async () => {
 (function () {
     const list_url = "web/geek/job";
     const recommend_url = "web/geek/recommend";
-    const message_url = "web/geek/chat";
 
     if (document.URL.includes(list_url) || document.URL.includes(recommend_url)) {
         window.addEventListener("load", () => {
             window.jobListPageHandler = new JobListPageHandler()
-        });
-    } else if (document.URL.includes(message_url) && parent?.document?.getElementById('msgIframe')) {
-        window.addEventListener("load", () => {
-            // jobListPage内部的 msgIframe才注册
-            new JobMessagePageHandler();
         });
     }
 })();
