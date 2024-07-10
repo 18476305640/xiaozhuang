@@ -13,6 +13,8 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/生活实用经验.md fetchFun="mLineFetchFun" />
+
 
 
 
