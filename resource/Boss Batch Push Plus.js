@@ -2,8 +2,8 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.6.0
-// @author       maple,Ocyss,忒星,zhuangjie
+// @version      1.6.1
+// @author       maple,Ocyss,忒星,Iekrwh,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
 // @match        https://www.zhipin.com/*
@@ -1624,7 +1624,7 @@ class JobListPageHandler {
             throw new FetchJobDetailFailExp(jobTitle, errorMsg || "获取boss数据重试多次失败");
         }
         const url = "https://www.zhipin.com/wapi/zpchat/geek/getBossData";
-        const token = unsafeWindow?._PAGE?.zp_token;
+        const token = unsafeWindow?._PAGE?.token;
         if (!token) {
             throw new FetchJobDetailFailExp(jobTitle, "未获取到zp-token");
         }
@@ -1696,7 +1696,7 @@ class JobListPageHandler {
 
                 this.operationPanel.refreshShow("正在投递-->" + jobTitle)
                 // 投递请求
-                axios.post(url, null, {headers: {"Zp_token": Tools.getCookieValue("geek_zp_token")}})
+                axios.post(url, null, {headers: {"zp_token": Tools.getCookieValue("bst")}})
                     .then(resp => {
                         if (resp.data.code === 1 && resp.data?.zpData?.bizData?.chatRemindDialog?.content) {
                             // 某些条件不满足，boss限制投递，无需重试，在结果处理器中处理
@@ -1808,7 +1808,7 @@ class JobWordCloud {
         "评审", "编译", "调试", "单元测试", "发布", "集成", "支持", "功能测试", "测试", "结果", "优化", "持续", "改进", "配合", "交付", "出现", "任职", "资格", "编程", "型", "使用", "认真负责", "高度", "责任感", "快速", "创新", "金融",
 
         "设计", "项目", "对", "常用", "掌握", "专业", "进行", "了解", "岗位", "能够", "中间件", "以及", "开源", "理解", ")", "软件", "计算机", "架构", "一定", "缓存", "可", "解决问题", "计算机相关", "发展", "时间", "奖金", "培训", "部署",
-        "互联网", "享受", "善于", "需要", "游戏", " ", "维护", "统招", "语言", "消息", "机制", "逻辑思维", "一", "意识", "新", "攻关", "升级", "管理", "重构", "【", "职位", "】", "成员", "好", "接口", "语句", "后台", "通用", "不", "描述",
+        "互联网", "享受", "善于", "需要", "游戏", " ", "维护", "统招", "语言", "消息", "机制", "逻辑思维", "一", "意识", "新", "攻关", "升级", "管理", "重构", "【", "职位", "】", "成员", "好", "接口", "语句", "后台", "通用", "不", "描述",
         "福利", "险", "机会", "会", "人", "完善", "技术难题", "技能", "应用服务器", "配置", "协助", "或者", "组织", "现有", "迭代", "流程", "项目管理", "从", "深入", "复杂", "专业本科", "协议", "不断", "项目经理", "协作", "五", "金", "待遇",
         "年终奖", "各类", "节日", "带薪", "你", "智慧", "前沿技术", "常用命令", "方案设计", "基本", "积极", "产品开发", "用户", "确保", "带领", "软件系统", "撰写", "软件工程", "职责", "抗压", "积极主动", "双休", "法定", "节假日", "假", "客户",
         "日常", "协同", "是", "修改", "要", "软件开发", "丰富", "乐于", "识别", "风险", "合理", "服务器", "指导", "规划", "提高", "稳定性", "扩展性", "功底", "钻研", "c", "高可用性", "计算机软件", "高效", "前端", "内部", "一起", "程序", "程序开发",
