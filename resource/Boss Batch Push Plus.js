@@ -365,7 +365,7 @@ class OperationPanel {
 
         // 文档说明
         this.docTextArr = [
-            "!加油，相信自己😶‍🌫️",
+            "加油!，相信自己😶‍🌫️",
             "1.批量投递：点击批量投递开始批量投简历，请先通过上方Boss的筛选功能筛选大致的范围，然后通过脚本的筛选进一步确认投递目标。",
             "2.生成Job词云图：获取当前页面的所有job详情，并进行分词权重分析；生成岗位热点词汇词云图；帮助分析简历匹配度",
             "3.保存配置：保持下方脚本筛选项，用于后续直接使用当前配置。",
@@ -373,7 +373,7 @@ class OperationPanel {
             "5.发送自定义招呼语：因为boss不支持将自定义的招呼语设置为默认招呼语。开启表示发送boss默认的招呼语后还会发送自定义招呼语",
             "6.可以在网站管理中打开通知权限,当停止时会自动发送桌面端通知提醒。",
             "7.过滤猎头岗位：打开后投递时会自动过滤掉猎头。猎头的岗位要求一般都非常高，实际投此类岗位是无意义的，以免浪费每天的100次机会。",
-            "😏",
+            "----",
             "脚本筛选项介绍：",
             "公司名包含：投递工作的公司名一定包含在当前集合中，模糊匹配，多个使用逗号分割。这个一般不用，如果使用了也就代表只投这些公司的岗位。例子：【阿里,华为】",
             "排除公司名：投递工作的公司名一定不在当前集合中，也就是排除当前集合中的公司，模糊匹配，多个使用逗号分割。例子：【xxx外包】",
@@ -384,18 +384,15 @@ class OperationPanel {
             "薪资范围：投递工作的薪资范围一定在当前区间中，一定是区间，使用-连接范围。例如：【12-20】",
             "公司规模范围：投递工作的公司人员范围一定在当前区间中，一定是区间，使用-连接范围。例如：【500-20000000】",
             "自定义招呼语：编辑自定义招呼语，当【发送自定义招呼语】打开时，投递后发送boss默认的招呼语后还会发送自定义招呼语；使用&lt;br&gt; \\n 换行；例子：【你好\\n我...】",
-            "👻",
+            "----",
         ];
 
         // 相关链接
+        const githubImg = `<img width='16px' src='data:image/svg+xml;base64,PHN2ZyB0PSIxNzIxNjEyOTIyNjM1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQyNDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cGF0aCBkPSJNNTEyIDQyLjY2NjY2N0E0NjQuNjQgNDY0LjY0IDAgMCAwIDQyLjY2NjY2NyA1MDIuMTg2NjY3IDQ2MC4zNzMzMzMgNDYwLjM3MzMzMyAwIDAgMCAzNjMuNTIgOTM4LjY2NjY2N2MyMy40NjY2NjcgNC4yNjY2NjcgMzItOS44MTMzMzMgMzItMjIuMTg2NjY3di03OC4wOGMtMTMwLjU2IDI3LjczMzMzMy0xNTguMjkzMzMzLTYxLjQ0LTE1OC4yOTMzMzMtNjEuNDRhMTIyLjAyNjY2NyAxMjIuMDI2NjY3IDAgMCAwLTUyLjA1MzMzNC02Ny40MTMzMzNjLTQyLjY2NjY2Ny0yOC4xNiAzLjQxMzMzMy0yNy43MzMzMzMgMy40MTMzMzQtMjcuNzMzMzM0YTk4LjU2IDk4LjU2IDAgMCAxIDcxLjY4IDQ3LjM2IDEwMS4xMiAxMDEuMTIgMCAwIDAgMTM2LjUzMzMzMyAzNy45NzMzMzQgOTkuNDEzMzMzIDk5LjQxMzMzMyAwIDAgMSAyOS44NjY2NjctNjEuNDRjLTEwNC4xMDY2NjctMTEuNTItMjEzLjMzMzMzMy01MC43NzMzMzMtMjEzLjMzMzMzNC0yMjYuOTg2NjY3YTE3Ny4wNjY2NjcgMTc3LjA2NjY2NyAwIDAgMSA0Ny4zNi0xMjQuMTYgMTYxLjI4IDE2MS4yOCAwIDAgMSA0LjY5MzMzNC0xMjEuMTczMzMzczM5LjY4LTEyLjM3MzMzMyAxMjggNDYuOTMzMzMzYTQ1NS42OCA0NTUuNjggMCAwIDEgMjM0LjY2NjY2NiAwYzg5LjYtNTkuMzA2NjY3IDEyOC00Ni45MzMzMzMgMTI4LTQ2LjkzMzMzM2ExNjEuMjggMTYxLjI4IDAgMCAxIDQuNjkzMzM0IDEyMS4xNzMzMzNBMTc3LjA2NjY2NyAxNzcuMDY2NjY3IDAgMCAxIDgxMC42NjY2NjcgNDc3Ljg2NjY2N2MwIDE3Ni42NC0xMTAuMDggMjE1LjQ2NjY2Ny0yMTMuMzMzMzM0IDIyNi45ODY2NjZhMTA2LjY2NjY2NyAxMDYuNjY2NjY3IDAgMCAxIDMyIDg1LjMzMzMzNHYxMjUuODY2NjY2YzAgMTQuOTMzMzMzIDguNTMzMzMzIDI2Ljg4IDMyIDIyLjE4NjY2N0E0NjAuOCA0NjAuOCAwIDAgMCA5ODEuMzMzMzMzIDUwMi4xODY2NjcgNDY0LjY0IDQ2NC42NCAwIDAgMCA1MTIgNDIuNjY2NjY3IiBmaWxsPSIjMjMxRjIwIiBwLWlkPSI0MjQxIj48L3BhdGg+PC9zdmc+' />`
         this.aboutLink = [
             [
-                ["GreasyFork", "https://greasyfork.org/zh-CN/scripts/468125-boss-batch-push-boss%E7%9B%B4%E8%81%98%E6%89%B9%E9%87%8F%E6%8A%95%E7%AE%80%E5%8E%86",],
-                ["GitHub", "https://github.com/yangfeng20/boss_batch_push"],
-                ["Gitee", "https://gitee.com/yangfeng20/boss_batch_push"],
-                ["作者：yangfeng20", "https://github.com/yangfeng20"],
-                ["贡献者：Ocyss_04", "https://github.com/Ocyss"],
-                ["去GitHub点个star⭐(当前为Plus版本即修改版增强版，这是原作者Github)", "https://github.com/yangfeng20/boss_batch_push"],
+                [`<span>Auto_Boss_Batch_Push</span>&nbsp;${githubImg}`,"https://github.com/18476305640/xiaozhuang/tree/dev/resource"],
+                [`<span>基于Boss_Batch_Push</span>&nbsp;${githubImg}`, "https://github.com/yangfeng20/boss_batch_push"],
             ]
         ]
 
@@ -619,10 +616,10 @@ class OperationPanel {
             let about = DOMApi.createTag("p", "", "padding-top: 12px;");
             linkMap.forEach((item) => {
                 const a = document.createElement("a");
-                a.innerText = item[0];
+                a.innerHTML = item[0];
                 a.href = item[1];
                 a.target = "_blank";
-                a.style.margin = "0 20px 0 0";
+                a.style = "padding:0 20px 0 0; display: inline-flex; align-items: center;";
                 about.appendChild(a);
             });
             txtDiv.appendChild(about);
