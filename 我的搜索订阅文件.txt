@@ -3,7 +3,7 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的软件收藏室.md fetchFun="sLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/文档搜索项.md fetchFun="sLineFetchFun" />
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/文档搜索项.md fetchFun="mLineFetchFun" />
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统项.md fetchFun="mLineFetchFun" />
 
