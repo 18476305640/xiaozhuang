@@ -1,7 +1,7 @@
 
 1、创建文件：
 wxmp-untie.bat
-```bash
+```bat
 @echo off
 IF %~x1==.wxapkg (
 "%~dp0KillWxapkg_windows_amd64.exe" -id=%~n1 -in="%1" -restore -pretty
