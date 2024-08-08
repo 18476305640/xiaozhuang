@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.6.3
+// @version      1.6.4
 // @author       maple,Ocyss,忒星,Iekrwh,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -115,6 +115,38 @@ class TampermonkeyApi {
 }
 
 class Tools {
+    /**
+     * 时间format
+     */
+    static formatDate(input, format = "yyyy-MM-dd HH:mm:ss") {
+        // 检查第一个参数类型
+        let date;
+        if (typeof input === 'number') {
+            date = new Date(input);
+        } else if (input instanceof Date) {
+            date = input;
+        } else {
+            throw new TypeError('Input must be a number or a Date object');
+        }
+
+        // 定义替换格式的映射
+        const formatMap = {
+            'yyyy': date.getFullYear(),
+            'MM': String(date.getMonth() + 1).padStart(2, '0'),
+            'dd': String(date.getDate()).padStart(2, '0'),
+            'HH': String(date.getHours()).padStart(2, '0'),
+            'mm': String(date.getMinutes()).padStart(2, '0'),
+            'ss': String(date.getSeconds()).padStart(2, '0')
+        };
+
+        // 替换格式字符串中的占位符
+        let formattedDate = format;
+        for (const [key, value] of Object.entries(formatMap)) {
+            formattedDate = formattedDate.replace(key, value);
+        }
+
+        return formattedDate;
+    }
 
 
     /**
@@ -155,17 +187,19 @@ class Tools {
 
 
     // 范围匹配
-    static rangeMatch(rangeStr, input, by = 1) {
-        if (!rangeStr) {
+    static rangeMatch(rangeStr = "", input, by = 1) {
+        if (rangeStr == null || !`${rangeStr}`.trim()) {
             return true;
         }
         // 匹配定义范围的正则表达式
-        let reg = /^(\d+)(?:-(\d+))?$/;
+        let reg = /^(\d*)-(\d*)$/;
         let match = rangeStr.match(reg);
 
         if (match) {
-            let start = parseInt(match[1]) * by;
-            let end = parseInt(match[2] || match[1]) * by;
+            // 如果没有提供start值，则默认为负无穷大
+            let start = match[1] ? parseInt(match[1]) * by : -Infinity;
+            // 如果没有提供end值，则默认为正无穷大
+            let end = match[2] ? parseInt(match[2]) * by : Infinity;
 
             // 如果输入只有一个数字的情况
             if (/^\d+$/.test(input)) {
@@ -179,11 +213,9 @@ class Tools {
             if (inputMatch) {
                 let inputStart = parseInt(inputMatch[1]);
                 let inputEnd = parseInt(inputMatch[2] || inputMatch[1]);
-                return (
-                    (inputStart >= start && inputStart <= end) ||
-                    (inputEnd >= start && inputEnd <= end) ||
-                    (inputStart <= start && inputEnd >= end)
-                );
+
+                // 必须确保输入的整个范围都在匹配范围内
+                return inputStart >= start && inputEnd <= end;
             }
         }
 
@@ -257,6 +289,8 @@ class Tools {
     }
 
 }
+
+
 
 class DOMApi {
 
@@ -379,10 +413,10 @@ class OperationPanel {
             "排除公司名：投递工作的公司名一定不在当前集合中，也就是排除当前集合中的公司，模糊匹配，多个使用逗号分割。例子：【xxx外包】",
             "排除工作内容：会自动检测上文(不是,不,无需等关键字),下文(系统,工具),例子：【外包,上门,销售,驾照】，如果写着是'不是外包''销售系统'那也不会被排除",
             "Job名包含：投递工作的名称一定包含在当前集合中，模糊匹配，多个使用逗号分割。还可以使用&，比如【python&后端,java后端】那job名需要包含‘python’且‘后端’或者只包含‘java后端’。",
-            "搜索地区loop：如“*”表示不限地区,普通值为地区名；每一个大轮换一个地区搜索。如“*,天河区”会不限地区进行一次“搜索地区loop”，那下一次是“天河区”进行一次“搜索地区loop”",
+            "搜索地区loop：如“*”表示不限地区,普通值为地区名；每一个大轮换一个地区搜索。如“*,天河区”会不限地区进行一轮“搜索关键字loop”，那下一次是“天河区”进行一轮“搜索关键字loop”",
             "搜索关键字loop：如【java实习,前端实习】如果本轮是‘java实习’那下一轮是‘前端实习’，如果当前搜索的不在配置内，也会在此会话中临时加入。",
-            "薪资范围：投递工作的薪资范围一定在当前区间中，一定是区间，使用-连接范围。例如：【12-20】",
-            "公司规模范围：投递工作的公司人员范围一定在当前区间中，一定是区间，使用-连接范围。例如：【500-20000000】",
+            "薪资范围：投递工作的薪资范围一定在当前区间中，一定是区间，使用-连接范围。例如：【12-20】【12-】【-20】",
+            "公司规模范围：投递工作的公司人员范围一定在当前区间中，一定是区间，使用-连接范围。例如：【500-20000000】【500-】【-20000000】",
             "自定义招呼语：编辑自定义招呼语，当【发送自定义招呼语】打开时，投递后发送boss默认的招呼语后还会发送自定义招呼语；使用&lt;br&gt; \\n 换行；例子：【你好\\n我...】",
             "----",
         ];
@@ -1411,7 +1445,11 @@ class JobListPageHandler {
                 const nextKeyword = this.getNextKeyword();
                 const waitTime = this.isNextKeywordFirstKeyword()?bigLoopIntervalTime:loopIntervalTime;
                 this.operationPanel.refreshShow("职位投递结束！")
-                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}开始等待${waitTime/1000}秒钟,下一个职位是：${nextKeyword}${this.isNextKeywordFirstKeyword()?`,&nbsp;&nbsp;搜索地区切换为：${this.getNextSearchArea() === "*"?"不限(*)":this.getNextSearchArea()}`:''}`)
+                this.operationPanel.refreshShow(`${this.isNextKeywordFirstKeyword()?'一个大轮结束,':''}进入等待[${Tools.formatDate(Date.now(),"HH:mm")}->${Tools.formatDate(Date.now() + waitTime,"HH:mm")}]后继续,下一个职位是：${nextKeyword}
+                                                ${ this.isNextKeywordFirstKeyword()
+                                                   ?`,&nbsp;&nbsp;搜索地区为：${/^\*?$/.test(this.getNextSearchArea())?"不限(*)":this.getNextSearchArea()}`
+                                                   : ''
+                                                }`);
 
                 setTimeout(async () => {
                     // 如果下个职位是第一个职位还需要切换地区
