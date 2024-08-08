@@ -2,7 +2,7 @@
 // @name         Boss Batch Push Plus [Boss直聘批量投简历Plus]
 // @description  boss直聘批量简历投递
 // @namespace    maple
-// @version      1.6.2
+// @version      1.6.3
 // @author       maple,Ocyss,忒星,Iekrwh,zhuangjie
 // @license      Apache License 2.0
 // @run-at       document-start
@@ -1621,7 +1621,7 @@ class JobListPageHandler {
             throw new FetchJobDetailFailExp(jobTitle, errorMsg || "获取boss数据重试多次失败");
         }
         const url = "https://www.zhipin.com/wapi/zpchat/geek/getBossData";
-        const token = unsafeWindow?._PAGE?.token;
+        const token = Tools.getCookieValue("bst");
         if (!token) {
             throw new FetchJobDetailFailExp(jobTitle, "未获取到zp-token");
         }
