@@ -5,7 +5,7 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/文档搜索项.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统项.md fetchFun="mLineFetchFun" />
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统项.md fetchFun="mLineFetchFun" default-tag="系统项" />
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/简要小教程.md fetchFun="mLineFetchFun" />
 
@@ -13,7 +13,7 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/生活实用经验.md fetchFun="mLineFetchFun" />
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/生活实用经验.md fetchFun="mLineFetchFun" default-tag="生活经验" />
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/常见官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
 
