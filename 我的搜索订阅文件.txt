@@ -17,6 +17,8 @@
 
 <tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/常见官网.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/游戏.md fetchFun="mLineFetchFun" default-tag="h'游戏'" />
+
 
 
 
