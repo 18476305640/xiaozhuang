@@ -6,7 +6,7 @@
 
 ![](https://raw.githubusercontent.com/18476305640/typora/master/images/2023/03/07/1678157884836.gif)
 
-订阅消息，关注微信公众号“我的搜索-搜我想搜”：
+订阅消息，关注微信公众号“**我的搜索-搜我想搜**”：
 
 ![](https://cdn.jsdelivr.net/gh/18476305640/typora@master/images/2024/10/10/1728542629942.jpg)
 
