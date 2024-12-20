@@ -1,23 +1,23 @@
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的网站收藏室.md fetchFun="sLineFetchFun" />
+<tis::小庄的网站收藏室.md fetchFun="sLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的软件收藏室.md fetchFun="sLineFetchFun" />
+<tis::小庄的软件收藏室.md fetchFun="sLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/文档搜索项.md fetchFun="mLineFetchFun" />
+<tis::文档搜索项.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统项.md fetchFun="mLineFetchFun" default-tag="系统项" />
+<tis::系统项.md fetchFun="mLineFetchFun" default-tag="系统项" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/简要小教程.md fetchFun="mLineFetchFun" />
+<tis::简要小教程.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室.md fetchFun="mLineFetchFun" />
+<tis::小庄的资源收藏室.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
+<tis::小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/生活实用经验.md fetchFun="mLineFetchFun" default-tag="生活经验" />
+<tis::生活实用经验.md fetchFun="mLineFetchFun" default-tag="生活经验" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/常见官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
+<tis::常见官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/游戏.md fetchFun="mLineFetchFun" default-tag="h'游戏'" />
+<tis::游戏.md fetchFun="mLineFetchFun" default-tag="h'游戏'" />
 
 
 
