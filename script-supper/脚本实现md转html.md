@@ -27,3 +27,38 @@ document.querySelectorAll('#text_show pre code').forEach((el) => {
 });
 
 ```
+
+## marked方式
+还有一种，使用marked代替showdown
+html案例:
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 转 HTML</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const markdownContent = `
+\`\`\`js
+console.log("hello world");
+\`\`\`
+            `;
+            document.getElementById("content").innerHTML = marked.parse(markdownContent);
+            document.querySelectorAll("pre code").forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Markdown 渲染示例</h2>
+    <div id="content"></div>
+</body>
+</html>
+
+```
