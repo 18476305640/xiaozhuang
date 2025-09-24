@@ -674,9 +674,10 @@ class GitHubEditor {
                 container.appendChild(childrenContainer);
             } else {
                 itemElement.innerHTML = `
-        <span class="file-icon"></span>${item.name}
-        <button class="delete-btn" title="删除文件">🗑️</button>
-    `;
+                    <span class="file-icon"></span>
+                    <span>${item.name}</span>
+                    <button class="delete-btn" title="删除文件">🗑️</button>
+                `;
 
                 itemElement.addEventListener('click', (e) => {
                     if (!e.target.classList.contains('delete-btn')) {
