@@ -137,6 +137,7 @@ body {
     background: white;
     cursor: pointer;
     font-size: 14px;
+    line-height: 1.5em;
     transition: .2s;
     color: #0c0c0c;
 }
