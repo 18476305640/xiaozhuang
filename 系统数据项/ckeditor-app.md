@@ -156,7 +156,7 @@ body {
 .file-tree {
     flex: 1;
     overflow-y: auto;
-    padding: 2px
+    padding: 8px
 }
 
 .file-item {
@@ -168,6 +168,12 @@ body {
     align-items: center;
     gap: 8px;
     position: relative;
+    font-size: 14px;
+
+    /* 新增以下属性实现文本超出省略号 */
+    white-space: nowrap;  /* 防止文本换行 */
+    overflow: hidden;     /* 隐藏超出容器的内容 */
+    text-overflow: ellipsis;  /* 超出部分显示省略号 */
 }
 
 .delete-btn {
@@ -657,7 +663,7 @@ class GitHubEditor {
             itemElement.style.paddingLeft = `${16 * pathDepth}px`;
 
             if (item.type === 'dir') {
-                itemElement.innerHTML = '<span class="folder-icon"></span>' + item.name;
+                itemElement.innerHTML = `<span class="folder-icon"></span> <span>${item.name}</span>`;
                 itemElement.addEventListener('click', () => this.#toggleFolder(item.path, itemElement));
 
                 container.appendChild(itemElement);
