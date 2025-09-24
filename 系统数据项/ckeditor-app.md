@@ -169,11 +169,6 @@ body {
     gap: 8px;
     position: relative;
     font-size: 14px;
-
-    /* 新增以下属性实现文本超出省略号 */
-    white-space: nowrap;  /* 防止文本换行 */
-    overflow: hidden;     /* 隐藏超出容器的内容 */
-    text-overflow: ellipsis;  /* 超出部分显示省略号 */
 }
 
 .delete-btn {
@@ -208,7 +203,12 @@ body {
 .file-icon::before {
     content: "📄"
 }
-
+.tree-node-name {
+    /* 新增以下属性实现文本超出省略号 */
+    white-space: nowrap;  /* 防止文本换行 */
+    overflow: hidden;     /* 隐藏超出容器的内容 */
+    text-overflow: ellipsis;  /* 超出部分显示省略号 */
+}
 .editor-content {
     flex: 1;
     display: flex;
@@ -663,7 +663,10 @@ class GitHubEditor {
             itemElement.style.paddingLeft = `${16 * pathDepth}px`;
 
             if (item.type === 'dir') {
-                itemElement.innerHTML = `<span class="folder-icon"></span> <span>${item.name}</span>`;
+                itemElement.innerHTML = `
+                    <span class="folder-icon"></span>
+                    <span class="tree-node-name">${item.name}</span>
+                `;
                 itemElement.addEventListener('click', () => this.#toggleFolder(item.path, itemElement));
 
                 container.appendChild(itemElement);
@@ -675,7 +678,7 @@ class GitHubEditor {
             } else {
                 itemElement.innerHTML = `
                     <span class="file-icon"></span>
-                    <span>${item.name}</span>
+                    <span class="tree-node-name">${item.name}</span>
                     <button class="delete-btn" title="删除文件">🗑️</button>
                 `;
 
