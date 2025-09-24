@@ -660,12 +660,12 @@ class GitHubEditor {
             itemElement.dataset.path = item.path;
 
             const pathDepth = parentPath ? parentPath.split('/').length + 1 : 1;
-            itemElement.style.paddingLeft = `${16 * pathDepth}px`;
+            itemElement.style.paddingLeft = `${12 * pathDepth}px`;
 
             if (item.type === 'dir') {
                 itemElement.innerHTML = `
                     <span class="folder-icon"></span>
-                    <span class="tree-node-name">${item.name}</span>
+                    <span class="tree-node-name" title="${item.name}">${item.name}</span>
                 `;
                 itemElement.addEventListener('click', () => this.#toggleFolder(item.path, itemElement));
 
@@ -678,7 +678,7 @@ class GitHubEditor {
             } else {
                 itemElement.innerHTML = `
                     <span class="file-icon"></span>
-                    <span class="tree-node-name">${item.name}</span>
+                    <span class="tree-node-name" title="${item.name}">${item.name}</span>
                     <button class="delete-btn" title="删除文件">🗑️</button>
                 `;
 
