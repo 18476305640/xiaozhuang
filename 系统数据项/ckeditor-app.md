@@ -110,7 +110,7 @@ body {
 .editor-container {
     flex: 2;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
     overflow: hidden
 }
 
