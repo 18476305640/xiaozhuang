@@ -9,6 +9,7 @@ function main({ cache, $, view, registry, open }) {
 }
 
 -- view:html --
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
 <div class="container">
     <!-- 左侧编辑器 -->
     <div class="editor-container">
