@@ -91,25 +91,25 @@ function main({ cache, $, view, registry, open }) {
 </div>
 -- view:css --
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
     height: 100vh;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .container {
     display: flex;
-    height: 100vh
+    height: 100vh;
 }
 
 .editor-container {
     flex: 2;
     display: flex;
     flex-direction: column;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .sidebar {
@@ -136,7 +136,8 @@ body {
     background: white;
     cursor: pointer;
     font-size: 14px;
-    transition: .2s
+    transition: .2s;
+    color: #0c0c0c;
 }
 
 .btn:hover {
@@ -147,17 +148,17 @@ body {
 .btn-primary {
     background: #0366d6;
     color: white;
-    border-color: #0366d6
+    border-color: #0366d6;
 }
 
 .btn-primary:hover {
-    background: #0256cc
+    background: #0256cc;
 }
 
 .file-tree {
     flex: 1;
     overflow-y: auto;
-    padding: 8px
+    padding: 8px;
 }
 
 .file-item {
@@ -194,15 +195,15 @@ body {
 
 .file-item.active {
     background: #e1f0ff;
-    color: #0366d6
+    color: #0366d6;
 }
 
 .folder-icon::before {
-    content: "📁"
+    content: "📁";
 }
 
 .file-icon::before {
-    content: "📄"
+    content: "📄";
 }
 .tree-node-name {
     /* 新增以下属性实现文本超出省略号 */
@@ -237,7 +238,7 @@ body {
     background: #f6f8fa;
     border-top: 1px solid #e1e4e8;
     font-size: 12px;
-    color: #586069
+    color: #586069;
 }
 
 .modal {
@@ -248,7 +249,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, .5);
-    z-index: 1000
+    z-index: 1000;
 }
 
 .modal-content {
@@ -260,23 +261,23 @@ body {
     padding: 24px;
     border-radius: 8px;
     width: 400px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .15)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
 }
 
 .modal-header {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 16px
+    margin-bottom: 16px;
 }
 
 .form-group {
-    margin-bottom: 16px
+    margin-bottom: 16px;
 }
 
 .form-label {
     display: block;
     margin-bottom: 4px;
-    font-weight: 500
+    font-weight: 500;
 }
 
 .form-input {
@@ -284,7 +285,7 @@ body {
     padding: 8px 12px;
     border: 1px solid #d1d5da;
     border-radius: 6px;
-    font-size: 14px
+    font-size: 14px;
 }
 
 .config-textarea {
@@ -316,13 +317,13 @@ body {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 16px
+    margin-top: 16px;
 }
 
 .loading {
     text-align: center;
     padding: 20px;
-    color: #586069
+    color: #586069;
 }
 
 .error {
@@ -330,7 +331,7 @@ body {
     background: #ffeef0;
     padding: 8px 12px;
     border-radius: 6px;
-    margin: 8px 0
+    margin: 8px 0;
 }
 
 .success {
@@ -338,7 +339,7 @@ body {
     background: #f0fff4;
     padding: 8px 12px;
     border-radius: 6px;
-    margin: 8px 0
+    margin: 8px 0;
 }
 
 -- view:js --
