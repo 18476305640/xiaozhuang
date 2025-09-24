@@ -111,10 +111,11 @@ body {
     flex: 2;
     display: flex;
     flex-direction: column
+    overflow: hidden
 }
 
 .sidebar {
-    width: 250px;
+    width: 200px;
     background: #f8f9fa;
     border-left: 1px solid #e1e4e8;
     display: flex;
@@ -157,7 +158,7 @@ body {
 .file-tree {
     flex: 1;
     overflow-y: auto;
-    padding: 16px
+    padding: 2px
 }
 
 .file-item {
