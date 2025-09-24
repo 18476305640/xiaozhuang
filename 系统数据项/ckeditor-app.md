@@ -391,12 +391,13 @@ class GitHubEditor {
         // 初始化流程：事件监听 → 配置初始化 → 编辑器初始化 → 本地缓存加载
         this.#initEventListeners();
         this.#initSavedConfig();
+        debugger
         // 检查 ClassicEditor 对象是否存在
         function onClassicEditorLoadedLoaded(callback) {
             if (typeof ClassicEditor !== 'undefined') {
                 callback(); // 如果 ClassicEditor 已经加载，执行回调
             } else {
-                setTimeout(() => onClassicEditorLoadedLoaded(callback), 50); // 如果不存在，每隔 100ms 检查一次
+                setTimeout(() => onClassicEditorLoadedLoaded(callback), 50);
             }
         }
         onClassicEditorLoadedLoaded(() => this.#initCKEditor());
