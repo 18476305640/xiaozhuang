@@ -122,7 +122,7 @@ body {
 }
 
 .sidebar-controls {
-    padding: 16px;
+    padding: 12px;
     border-bottom: 1px solid #e1e4e8;
     display: flex;
     gap: 8px;
