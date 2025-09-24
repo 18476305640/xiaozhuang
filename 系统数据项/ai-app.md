@@ -1,0 +1,788 @@
+# [h'脚本'][h'问AI'][h'系统项'] AI（使用ChatGPT作为服务端，集成到本脚本，实现快捷的AI问答功能）
+-- env --
+_icon data:image/png;base64,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
+
+_describe 使用三方Api来支持的内置AI助手
+-- script --
+function main({ cache, $, view }) {
+  view.mount();
+}
+
+
+-- view:css --
+span,
+p,
+div {
+  color: #000000;
+}
+#msg {
+  color: #FCBD18;
+  display: none;
+}
+#chat-control {
+  display: flex;
+  align-items: stretch;
+  height: 30px;
+}
+
+#chat-control select {
+  font-size: 14px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  border: 0;
+  padding: 0 7px;
+  margin: 0 2px;
+  cursor: pointer;
+  width: 140px;
+  text-align: center;
+}
+#chat-control textarea#chat-input {
+  height: 30px;
+  min-height: 30px;
+  line-height: 30px;
+  padding: 0px 4px;
+  flex-grow: 1;
+  border: 1px solid #d1d1d1;
+}
+#chat-control button#chat-btn {
+  font-size: 14px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  border: 0;
+  padding: 0 16px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+#conversation-history {
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  min-height: 50px;
+}
+pre {
+  display: flex;
+  flex-direction: column;
+  margin: 3px 0;
+}
+pre .code-type {
+    display: block;
+    margin: 2px 5px;
+    color: #bcbcbc;
+    /*代码类型不可选中*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  
+}
+
+.你-message,
+.你-message * {
+   color: #007BFF;
+}
+
+.AI-message,
+.AI-message * {
+   color: #28A745 ;
+}
+
+
+.系统-message,
+.系统-message * {
+   color: red;
+}
+
+#loading {
+   display: inline-block;
+   width: 20px;
+   height: 20px;
+   border: 4px solid rgba(0, 0, 0, 0.1);
+   border-top-color: #000;
+   border-radius: 50%;
+   animation: spin 1s linear infinite;
+}
+#prompt {
+  margin: 10px 0;
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+#prompt > p {
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  margin: 0 3px 4px 0;
+  height: 28px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+}
+#prompt > .optional {
+    background: #ededed;
+    border-radius: 8px;
+    color: #7a7a7a;
+    padding: 0 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin:0 3px 4px;
+    height: 28px;
+    line-height: 28px;
+    flex-grow: 1;
+    text-align: center;
+}
+#prompt > .selected {
+  border: 1px solid red;
+    box-sizing: border-box;
+    background: #fffd0042;
+}
+#prompt input {
+    border-radius: 8px;
+    width: 33%;
+    min-width: 120px;
+    padding: 0 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin: 0 0 4px 3px;
+    height: 28px;
+    line-height: 28px;
+    box-sizing: border-box;
+    font-size: 10px;
+    border: 1px solid #6e6e6e;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+-- view:html --
+<p id="msg"></p>
+<div id="conversation-history"></div>
+<div id="prompt">
+  <p class="title">知识库/提示词<img title="已添加的双击删除,角色定义“角色名::角色任务描述/URL”" src="https://cdn.jsdelivr.net/gh/18476305640/typora@master/images/2024/12/04/1733272842395.svg" style="
+      height: 14px;
+      width: 14px;
+      display: inline-block;
+  ">：</p>
+  <span key="[WS]" class="optional">📕联网知识库</span>
+  <span key="[RP]" class="optional">📄读取当前页</span>
+  <span key="[SD]" class="optional">🗂️基于搜索项</span>
+  <input id="role_add_input" placeholder="📝定义AI角色 “角色名::描述（提示词）” 回车添加" />
+</div>
+<div id="chat-control">
+  <select id="model-select">
+  </select>
+  <textarea type="text" id="chat-input" placeholder="给“ChatGPT”发送消息（Ctrl+Enter换行）"></textarea>
+  <button id="chat-btn">send</button>
+</div>
+
+-- view:js --
+console.log("进入viewScript")
+let msgElement = document.querySelector("#msg");
+function showMsg(msg = '') {
+  msgElement.innerHTML = msg;
+  // 设置display: block;
+  msgElement.style.display = msg === "" ? "none" : "block";
+}
+function trimString(str, trimStr) {
+  // 使用正则表达式去除前后指定的字符串
+  const regex = new RegExp(`^${trimStr}|${trimStr}$`, 'g');
+  return str.replace(regex, '');
+}
+// \n => 中间字符 => <br /> | \n
+function nextLineMedials(isToMedials = true, content = "", target = "") {
+  if(isToMedials) {
+    return content.replace(/(\n)+/g, "[[$换行$]]")
+  } else {
+    return content.replace(/\[\[\$换行\$\]\]/g, target);
+  }
+}
+// 去除两边的\n
+function trimNewlines(str) {
+    return str.replace(/^\n+|\n+$/g, '');
+}
+// 转义 HTML 标签字符(代码块特殊字符也直接显示，相当innerText)
+function escapeHtml(str) {
+  return str.replace(/[&<>"'\/]/g, function (match) {
+    const escapeMap = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+      '/': '&#47;'
+    };
+    return escapeMap[match];
+  });
+}
+function simpleMD2HTML(content) {
+  let formattedContent = nextLineMedials(true,content);
+
+    // 检查内容中是否包含代码块标记
+    const codeBlockRegex = /```(\w+)?([\s\S]*?)```|`([^`]+)`/g;
+    formattedContent = formattedContent.replace(codeBlockRegex, (match, lang, blockContent, inlineContent) => {
+    if (blockContent) {
+      blockContent = trimString( nextLineMedials(false,blockContent,"\n"), "\n")
+      return `<pre> 
+                <span class="code-type">${lang || "plaintext"}</span> 
+                <code>${escapeHtml(blockContent)}</code>
+              </pre>`;
+    } else if (inlineContent) {
+      inlineContent = nextLineMedials(false,inlineContent,"\n")
+      // 处理行内代码，将HTML标签字符转义
+      return `<code> ${escapeHtml(inlineContent)} </code>`;
+    }
+    return match;
+  });
+  formattedContent = nextLineMedials(false,formattedContent,"<br />")
+  return formattedContent;
+}
+if(window.MS_SCRIPT_ENV == null 
+|| window.MS_SCRIPT_ENV.getSelectedText == null
+|| window.MS_SCRIPT_ENV.md2html == null
+|| window.MS_SCRIPT_ENV.request == null
+) {
+  showMsg("🎨当前脚本缺少所需API支持，为确保正常使用，请更新脚本到最新版本。<a href='https://update.greasyfork.org/scripts/457020/%E6%88%91%E7%9A%84%E6%90%9C%E7%B4%A2.user.js'>更新</a>");
+  window.MS_SCRIPT_ENV = {
+    cache: {
+      set(key,value) {},
+      get(key) {return null;}
+    },
+    getSearchDB() {return []},
+    getSelectedText(msg) {alert('请升级脚本')},
+    event: (window.MS_script_env_var || window.MS_SCRIPT_ENV).event,
+    md2html: simpleMD2HTML,
+    request: ()=>alert('请升级脚本！'),
+    ...(window.MS_SCRIPT_ENV || {})
+  }
+}
+
+
+let config = (()=>{
+  return window.MS_SCRIPT_ENV.cache.get("ms_ai_config")
+})();
+function reCacheConfig() {
+  window.MS_SCRIPT_ENV.cache.set("ms_ai_config",config)
+}
+if(config == null) {
+  config = {
+    roles: []
+  }
+  reCacheConfig()
+}
+const roleList = document.querySelector('#prompt')
+const inputOfRole = document.querySelector('#prompt #role_add_input')
+
+function pushRoleToList({name,describe} = {}) {
+  const newSpan = document.createElement('span');
+  newSpan.classList.add('optional');
+  
+  newSpan.textContent = name;
+  newSpan.setAttribute('key', describe);
+
+  roleList.insertBefore(newSpan,inputOfRole);
+}
+// 渲染缓存的角色
+config.roles.forEach(role => pushRoleToList(role))
+
+inputOfRole.addEventListener('keydown', function(event) {
+  // 判断是否是回车键
+  if (event.key === 'Enter') {
+    const inputValue = this.value.trim(); // 获取输入框的值，并去除两端空格
+
+    if (inputValue) {
+      // 创建新的 span 元素
+      const ivArr = inputValue.split(/::/)
+      const newRoleItem = {
+        name: ivArr[0],
+        describe: ivArr.length > 1 ? ivArr[1] : ivArr[0]
+      };
+      config.roles.push(newRoleItem)
+      reCacheConfig();
+      pushRoleToList(newRoleItem);
+      // 清空输入框
+      this.value = '';
+    }
+  }
+});
+// 角色/知识库点击
+// 事件委托：监听父元素的双击事件
+roleList.addEventListener('dblclick', function(event) {
+  // 判断是否是点击的 span 元素
+  console.log("tagName=",event.target.tagName)
+  if (event.target && event.target.tagName.toLowerCase() === 'span') {
+    // 获取文本内容
+    const text = event.target.textContent || event.target.innerText;
+
+    // 删除元素前输出文本
+    console.log('要删除的文本:', text);
+    // 从规则中删除
+    config.roles = config.roles.filter(role => role.name !== text)
+    reCacheConfig();
+    // 删除点击的元素
+    event.target.remove();
+  }
+});
+roleList.addEventListener('click', function(event) {
+  // 确保点击的元素是 span
+  if (event.target && event.target.tagName.toLowerCase() === 'span') {
+    // 如果当前点击的 span 已经有 selected 类，则移除它
+    if (event.target.classList.contains('selected')) {
+      event.target.classList.remove('selected');
+    } else {
+      // 否则先移除其他 span 的 selected 类，再为当前点击的 span 添加 selected 类
+      document.querySelectorAll('#prompt > span.optional').forEach(function(otherSpan) {
+        otherSpan.classList.remove('selected');
+      });
+      event.target.classList.add('selected');
+      inputDocument.focus();
+    }
+  }
+});
+
+
+// 获取 key 的 value
+function getSelectedItem() {
+  const selectedSpan = document.querySelector('#prompt > span.selected');
+  if(selectedSpan == null) return null
+  return {
+    name: selectedSpan.innerText,
+    describe: selectedSpan.getAttribute('key')
+  }
+}
+
+const headers = new Headers();
+headers.append("Content-Type", "application/json");
+function getAnyOne(keys = []) {
+  const randomIndex = Math.floor(Math.random() * keys.length);
+  return keys[randomIndex];
+}
+
+// 编码：window.btoa("raw")
+// 解码：window.atob("processed")
+const providerList = [
+  //'ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vZnJlZS52MzYuY20vdjEiXSwKICAgICJrZXlzIjogWwogICAgICAic2stNElJcFRPdDgwTmR0STZHOTEyRGExZkY4N2YzYTRhMGJCYjA2MmVBNDQ3N2NDMjUyIiwKICAgICAgInNrLWxSdFo5dTdyYTcwcjJZQjhCODBlOWNEMDE4MDA0MUI1QWM0MjcwQzBBMzgwMWUwMCIsCiAgICAgICJzay12cnI1WWVQMWlmYkp2S3VVMzNDOERkQjMwM0I5NDczM0E3Q2RDYzE0RTJEY0U4QWYiCiAgICBdLAogICAgIm1vZGVsIjogWyJncHQtNG8tbWluaSIsImdwdC0zLjUtdHVyYm8tMDEyNSIsImdwdC0zLjUtdHVyYm8tMTEwNiIsInNlbGVjdGVkOmdwdC0zLjUtdHVyYm8iLCJncHQtMy41LXR1cmJvLTE2ayIsIm5ldC1ncHQtMy41LXR1cmJvIiwid2hpc3Blci0xIiwiZGFsbC1lLTIiXQogIH0=',
+
+  //'ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vYXBpLmNoYXRhbnl3aGVyZS50ZWNoL3YxIiwiaHR0cHM6Ly9hcGkuY2hhdGFueXdoZXJlLm9yZy92MSJdLAogICAgImtleXMiOiBbCiAgICAgICJzay1hYVU4dkM3Sk93dXpQRUpVaXJENXVqb3cyWndTTUNIc3lGT2pTbUM1Z2EwY0hWNTQiLAogICAgICAic2stM2p6Y0FhUGg2NGVvUENzQWREMmI3V0RESVZPcW0yQ2FUc0dLQVdFTFVaYXJNSXRpIiwKICAgICAgInNrLUpjdDltUVJXMEpqdzZ2OG9qSU9Qb3J1MklkbEd3ZlVoRmFwZW4xSnQxemZUazN5SyIKICAgIF0sCiAgICAibW9kZWwiOiBbImdwdC00Iiwic2VsZWN0ZWQ6Z3B0LTMuNS10dXJibyIsImdwdC00LWNhIiwiZ3B0LTMuNS10dXJiby1jYSJdCiAgfQ==',
+
+  //'ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vb3Blbi5iaWdtb2RlbC5jbi9hcGkvcGFhcy92NCJdLAogICAgImtleXMiOiBbCiAgICAgICI1ODhkZGVkOGVmNzc2YjM3Y2M0MGMxODhlZTNmYjRjMC5IM01adXNJYXE0NVdUSHFXIiwKICAgICAgImI2ZDhkYWM0NmZlMmQ4Y2NmZmZmMTBmNGY3Nzg4ZmQ5LlZqRktodVFqU014YVZhM1QiLAogICAgICAiNjFkNGRhYzY5YmRhMjdlMDAyZDE3NTY0MGE5ZGIzMGMuM3RnWG42VmxMNHdKU3V0bCIKICAgIF0sCiAgICAibW9kZWwiOiBbImdsbS00di1wbHVzIiwiZ2xtLTR2Iiwic2VsZWN0ZWQ6Z2xtLTR2LWZsYXNoIl0KICB9',
+
+  //"ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vYXBpLnNpbGljb25mbG93LmNuL3YxIl0sCiAgICAia2V5cyI6IFsKICAgICAgInNrLW1lYnNqb2dud2Fkc2x2am1qZ2Fhc3Fkc2twdmFteGF2eW96cmFpam1kcmRod3ZoYiIsCiAgICAgICJzay1zb2h0dGNnb2J5a2ZwaHlqaGNsbGdleXVocGdwbXRhcXdzaHNjd2hwY3R1cmRpZm4iCiAgICBdLAogICAgIm1vZGVsIjogWyJpbnRlcm5sbS9pbnRlcm5sbTJfNS03Yi1jaGF0IiwiQUlEQy1BSS9NYXJjby1vMSIsIlF3ZW4vUXdlbjIuNS03Qi1JbnN0cnVjdCJdLAogICAgImNvbnRleHRMaW1pdCI6IDEyODAwMAogIH0=",
+
+  "ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vYXBpLm1pc3RyYWwuYWkvdjEiXSwKICAgICJrZXlzIjogWwogICAgICAiczFYQTJSY1JvN05aTFJmVHo5UVlWVURXQVVoVm5ubXgiLAogICAgICAid2o3UWliTG9ZUzFKeEo1SHdOVFlGUnY0NVF5YkpFNzciCiAgICBdLAogICAgIm1vZGVsIjogWyJtaXN0cmFsLWxhcmdlLWxhdGVzdCIsInNlbGVjdGVkOnBpeHRyYWwtMTJiLTI0MDkiLCJtaW5pc3RyYWwtOGItbGF0ZXN0Iiwib3Blbi1jb2Rlc3RyYWwtbWFtYmEiLCJvcGVuLW1pc3RyYWwtbmVtbyJdLAogICAgImNvbnRleHRMaW1pdCI6IDEyODAwMAogIH0=",
+
+  //GLM免费模型垃圾暂时不用"ewogICAgImJhc2VVcmwiOiBbImh0dHBzOi8vb3Blbi5iaWdtb2RlbC5jbi9hcGkvcGFhcy92NCJdLAogICAgImtleXMiOiBbCiAgICAgICI1ODhkZGVkOGVmNzc2YjM3Y2M0MGMxODhlZTNmYjRjMC5IM01adXNJYXE0NVdUSHFXIgogICAgXSwKICAgICJtb2RlbCI6IFsic2VsZWN0ZWQ6Z2xtLTQtZmxhc2giXSwKICAgICJjb250ZXh0TGltaXQiOiAxMjgwMDAKICB9"
+]
+// 选择一个服务提供者信息
+let sessionProvider = {
+  ...(typeof providerList[0] === "string" ? JSON.parse(atob(getAnyOne(providerList))) : getAnyOne(providerList)),
+  chooseOut: function() {
+    return {
+      baseUrl: getAnyOne(sessionProvider.baseUrl),
+      key: getAnyOne(sessionProvider.keys),
+      defaultChooseModel: trimString(this.model.find(m => m.startsWith("selected:")) || getAnyOne(this.model),"selected:"),
+      contextLimit: (sessionProvider?.contextLimit || 4000)
+    }
+  }
+}
+let sessionProviderSpecific = sessionProvider.chooseOut();
+
+// 历史对话记录
+let isLoading = false;
+const inputDocument = document.getElementById("chat-input");
+const sendBtn = document.querySelector("#chat-btn");
+const selectElement = document.getElementById("model-select");
+let loading = null;
+const historyContainer = document.getElementById("conversation-history");
+headers.append("Authorization", `Bearer ${sessionProviderSpecific.key}`);
+// 将模型放到下拉框中
+sessionProvider.model.forEach(currentModel => {
+  const option = document.createElement("option");
+  
+  option.selected = (currentModel = trimString(currentModel,"selected:")) === sessionProviderSpecific.defaultChooseModel;
+  option.value = option.textContent = currentModel;
+  
+  selectElement.appendChild(option);
+});
+
+function cleanHtml(html, removeTags, keepAttributes) {
+    // 创建一个 DOM 解析器
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // 将 removeTags 转换为小写，提高匹配准确度
+    const tagsToRemove = new Set(removeTags.map(tag => tag.toLowerCase()));
+    const attributesToKeep = new Set(keepAttributes.map(attr => attr.toLowerCase()));
+
+    // 递归遍历节点并移除指定标签
+    function traverseAndClean(node) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+            const tagName = node.tagName.toLowerCase();
+            
+            if (tagsToRemove.has(tagName)) {
+                while (node.firstChild) {
+                    node.parentNode.insertBefore(node.firstChild, node);
+                }
+                node.remove();
+                return;
+            }
+
+            // 处理属性保留
+            [...node.attributes].forEach(attr => {
+                if (!attributesToKeep.has(attr.name.toLowerCase())) {
+                    node.removeAttribute(attr.name);
+                }
+            });
+        }
+
+        [...node.childNodes].forEach(traverseAndClean);
+    }
+
+    traverseAndClean(doc.body);
+
+    // 压缩标签内部的空格
+    let compressedHtml = doc.body.innerHTML.replace(/\s+/g, ' ').trim();
+    // 额外处理标签间的空格，防止过多空格影响布局
+    compressedHtml = compressedHtml.replace(/>\s+</g, '><');
+
+    return compressedHtml;
+}
+function toBottom() {
+  const page = document.querySelector("#text_show");
+  page.scrollTop = page.scrollHeight;
+}
+const getInitConversationHistory = (()=>{
+  let conversationHistory = [];
+  let lastPrompt = "";
+  async function historyToView(history = []) {
+    // 清理掉所有历史
+    historyContainer.innerHTML = '';
+    // 重构
+    // 不要系统提示词
+    if(history[0]?.role === 'system') history = history.splice(1,history.length - 1);
+    console.log('视图历史:',history)
+    for(let item of history) await appendToConversationHistory(item.role === 'user' ? '你' : 'AI', item.content, Date.now());
+    // 到底部
+    toBottom();
+  }
+  async function checkLastAsk(history = [], userInput) {
+    // 从右往左遍历
+    for (let i = history.length - 1; i >= 0; i--) {
+        if (history[i].role === 'user') {
+            if (history[i].content !== userInput) {
+                return history; // 最近的用户提问不匹配，直接返回原 history
+            } else {
+                // 从历史记录中移除
+                const newHistory = history.slice(0, i);
+                await historyToView(newHistory);
+                return newHistory; // 移除该 role 右边的所有项
+            }
+        }
+    }
+    return history; // 如果没有找到 'user' 角色，返回原 history
+  }
+  return async function(userInput) {
+    const selectedItem = getSelectedItem();
+    let prompt = selectedItem?.describe;
+    let isAlreadySwitched = prompt !== lastPrompt;
+    if(isAlreadySwitched) {
+      const isHasLastHistory = conversationHistory.length > 0; 
+      conversationHistory = [] // prompt改变，ConversationHistory重置
+      lastPrompt = prompt
+      if(isHasLastHistory) await appendToConversationHistory("系统", "----切换角色/知识库历史已被清理----", Date.now());
+    }else {
+      conversationHistory;
+    }
+    // 如果是有含意的，需要解析真正prompt
+    // isForcePrompt为true时每次提问无上次历史或system提示词总是一个（system提示词追加方式，确保只有一个system）
+    let isForcePrompt = false;
+    if("[WS]" === prompt) {
+      // 联网知识库
+      const response = await fetch(`https://api.pearktrue.cn/api/aisearch/?keyword=${userInput}`, {method: 'GET'});
+      if (response.ok) {
+        const data = await response.json();  // 解析 JSON 格式的响应体
+        prompt = `
+        ---------------
+        下面是通过网络搜索的数据, 请你结合下面搜索数据回复用户问题。
+        ---------------
+        ${JSON.stringify(data.data.text)}
+        ---------------
+        ` 
+      } else {
+        console.error('Error fetching data:', response.status);
+        alert("获取网络数据失败~，可以换个页面试试")
+      }
+      // 如果历史不为空，这里需要手动添加，设置为强Prompt后面添加
+      isForcePrompt = true;
+    }else if("[RP]" === prompt && isAlreadySwitched){
+      let bodyHtml = document.body.innerHTML;
+      // 排除脚本HTML
+      let msHtml = document.querySelector("#my_search_box").innerHTML;
+      bodyHtml = bodyHtml.replace(msHtml,'')
+      // html精简
+      bodyHtml = cleanHtml(bodyHtml, ['style','script'], ['class','id','href','title','alt','src']);
+
+      if(bodyHtml.length > sessionProviderSpecific.contextLimit) {
+        let bodyText = document.body.outerText;
+        // 我的搜索的text
+        let msText = document.querySelector("#my_search_box").innerText;
+        bodyHtml = bodyText.replace(msText,'')
+
+        if(bodyHtml > sessionProviderSpecific.contextLimit) {
+          bodyHtml = await window.MS_SCRIPT_ENV.getSelectedText("由于页面过大，请手动选择文本")
+        }
+      }
+      prompt = `
+      ---------------
+      下面是用户在页面html或用户选择的页面文本信息，请你结合下面页面数据回复用户问题。
+      ---------------
+      ${bodyHtml}
+      ---------------
+      `;
+    }else if("[SD]" === prompt && isAlreadySwitched) {
+      let searchData = [];
+      if (window.MS_SCRIPT_ENV.matchSearch) {
+        const keywords = userInput
+          .split(/[,，。 呢吗？?了]+/)
+          .map(k => k.trim())
+          .filter(Boolean);
+
+        let allResults = [];
+
+        for (const keyword of keywords) {
+          const res = await window.MS_SCRIPT_ENV.matchSearch(keyword);
+          allResults.push(...(res.slice(0, 40)));
+        }
+
+        // 调用 distinct 去重
+        const distinctResults = window.MS_SCRIPT_ENV.data.distinct(allResults);
+
+        // 取前100条
+        searchData = JSON.stringify(distinctResults.slice(0, 90));
+
+        console.log("搜索：" + userInput, searchData);
+      } else {
+        searchData = JSON.stringify(window.MS_SCRIPT_ENV.getSearchDB() ?? []);
+      }
+
+
+      // 超过50万个字符，使用简要的数据
+      if(searchData.length > 16384) {
+        console.log("由于数据过大，AI只读取简要数据。",searchData.length)
+        searchData = (window.MS_SCRIPT_ENV.getSearchDB() ?? []).map(e => `${(e.title ?? '')}:${e.desc.includes('-无描述-')?'':e.desc}`.replace(/\s{2,}/g, ' '));
+      }
+      prompt = `
+        ---------------
+       你是一位智能搜索专家，能根据用户的输入分析用户的意愿，从下面的数据库中找出最为符合的项，并在该项说明符合的原因，最多5个结果并进行匹配度排序，更符合用户的排在最前面。
+        ---------------
+        ${JSON.stringify(searchData)}
+        ---------------
+        `;
+    }else if(/https?:\/\/.+/.test(`${prompt}`.trim()) && isAlreadySwitched) {
+      const httpPageHtml = await window.MS_SCRIPT_ENV.request("GET",selectedItem.describe,{config: {crossDomain:true}});
+      // html -> text
+      function getTextContentFromString(htmlString) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(htmlString, 'text/html');
+          var body = doc.body;
+          return body.innerText || body.textContent;
+      }
+      const httpPageText = getTextContentFromString(httpPageHtml)
+      prompt = `
+        ---------------
+        下面是网页内容/知识库，请务必优先根据下面数据回复用户问题，减少回答知识库以外的东西：
+        ${httpPageText}
+        ---------------
+        `;
+    }
+    
+    if(conversationHistory.length === 0 || isForcePrompt) {
+      if(prompt != null) {
+        // 当没有提示词时，当没有历史才加基本的角色提示词
+        const isMeaningful = /^\[.*\]$/.test(selectedItem.describe) || /https?:\/\/.+/.test(`${selectedItem.describe}`.trim());
+        const promptObj = { 
+          role: "system", 
+          content: isMeaningful ? prompt: `你当任${selectedItem.name},你的任务是${selectedItem.describe}。`
+        };
+        if(isForcePrompt && conversationHistory.length > 0) {
+          conversationHistory[0].content += ('\n'+promptObj.content)
+        }else {
+          conversationHistory.push(promptObj)
+        }
+      }else {
+         conversationHistory.push({ role: "system", content: '你是乐于助人AI助理' })
+      }
+    }
+    return await checkLastAsk(conversationHistory,userInput);
+  }
+})();
+function closeLoading() {
+  isLoading = false;
+  // 删除loading节点
+  loading.remove();
+}
+function chatResponseComplete() {
+  if (isLoading) closeLoading();
+  sendBtn.disabled = false;
+}
+function getInputValue() {
+  const input = inputDocument.value;
+  inputDocument.value = ''
+  return input;
+}
+async function chat() {
+  if(sendBtn.disabled) return;
+  sendBtn.disabled = true; // 按钮disabled
+
+  const userInput = getInputValue();
+  const messageId = "user-" + Date.now();
+  let conversationHistory = await getInitConversationHistory(userInput);
+
+
+  await appendToConversationHistory("你", userInput, messageId);
+  conversationHistory.push({ role: "user", content: userInput });
+  const requestOptions = {
+    method: 'POST', headers,
+    body: JSON.stringify({
+      model: selectElement.value, // 下拉框ai框架选择值
+      messages: conversationHistory,
+      stream: true
+    }),
+  };
+  // 用于判断受限还是网络错误
+  const beforeTime = Date.now();
+  try {
+    openLoading();
+    const response = await fetch(`${sessionProviderSpecific.baseUrl}/chat/completions`, requestOptions);
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let partialMessage = ""; // Partial message from the stream
+    let aiMessage = ''
+    // 消息id，用于标识消息div
+    const messageId = "assistant-" + Date.now();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        console.log("Stream complete");
+        conversationHistory.push({ role: "assistant", content: aiMessage });
+        chatResponseComplete();
+        return;
+      }
+      
+
+      const chunk = decoder.decode(value, { stream: true });
+      let messages = (partialMessage + chunk).split("\n");
+      partialMessage = messages.pop();
+
+      // 过滤数组里的空字符串
+      messages = messages.filter(message => message);
+
+      for (const message of messages) {
+        if (!message) continue; // 忽略空字符串
+        if (message === "data: [DONE]") {
+          break;
+        }
+        const jsonStartIndex = message.indexOf("{");
+        const jsonData = message.slice(jsonStartIndex);
+        const dataObject = JSON.parse(jsonData);
+
+        const aiResponse = dataObject.choices[0].delta.content;
+        if (aiResponse) {
+          aiMessage += aiResponse;
+          console.log(aiResponse);
+          await appendToConversationHistory("AI", aiMessage, messageId);
+        }
+      }
+    }
+  }catch(e) {
+    chatResponseComplete();
+    const isNetError = Date.now() - beforeTime > 460;
+    if(! isNetError) {
+      alert('受页面限制，无法发出请求！少数页面会这样~');
+    }
+    console.log(e);
+  }
+}
+
+function appendToConversationHistory(role, content, messageElementId) {
+  return new Promise((resolve,reject) => {
+    let messageElement = document.getElementById(messageElementId);
+    if (!messageElement) {
+      messageElement = document.createElement("div");
+      messageElement.id = messageElementId;
+      messageElement.classList.add(role + "-message");
+      historyContainer.appendChild(messageElement);
+    }
+    messageElement.innerHTML = role + " : " + window.MS_SCRIPT_ENV.md2html(content);
+
+    // 使用 requestAnimationFrame 确保 DOM 变更已渲染
+    requestAnimationFrame(() => {
+      resolve();
+    });
+  })
+}
+
+function openLoading() {
+  isLoading = true;
+  // 创建loading 节点
+  const loadingElement = loading = document.createElement("div");
+  loadingElement.id = "loading";
+  loadingElement.style.display = "inline-block";
+  // 挂在到historyContainer
+  historyContainer.appendChild(loadingElement);
+}
+
+
+
+// 给发送按钮绑定点击事件
+sendBtn.addEventListener("click", () => chat());
+// 监听msg push 事件(新版本使用MS_SCRIPT_ENV替换原来的MS_script_env_var，下面写有兼容代码)
+// 防抖函数（固定时间间隔内只执行一次）
+const debounce = (fn, delay = 100) => {
+  let timer = null;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+};
+// 带防抖的事件处理
+const handleMessage = debounce((fillKeyword) => {
+  console.log("已接收到：", fillKeyword);
+  if (`${fillKeyword}`.trim().length === 0) return;
+  inputDocument.value = fillKeyword; // 手动设置值
+  chat(); // 点击send
+});
+
+window.MS_SCRIPT_ENV.event.sendListener.push(handleMessage);
+// 回车发送事件
+inputDocument.addEventListener('keypress', function(event) {
+  // 检查是否按下了 "Enter" 键
+  if (event.key === 'Enter') {
+    // 阻止默认行为（防止在表单中触发提交等）
+    event.preventDefault();
+    // 触发按钮点击
+    chat();
+  }
+});
+// ctrl+回车向输入框内添加回车字符
+inputDocument.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.key === 'Enter') {
+        event.preventDefault(); // 阻止默认行为
+        const start = inputDocument.selectionStart;
+        const end = inputDocument.selectionEnd;
+        // 在光标位置插入换行符
+        const value = inputDocument.value;
+        inputDocument.value = value.substring(0, start) + '\n' + value.substring(end);
+        // 调整光标位置到换行符后
+        inputDocument.selectionStart = inputDocument.selectionEnd = start + 1;
+        // 滚动视图到文本区域的最后
+        inputDocument.scrollTop = inputDocument.scrollHeight;
+    }
+});

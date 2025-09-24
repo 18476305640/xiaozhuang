@@ -1,33 +1,16 @@
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统项.md fetchFun="mLineFetchFun" default-tag="系统项" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-1号.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-3号.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-网站.md fetchFun="sLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-软件.md fetchFun="sLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-文档.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-教程.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-生活.md fetchFun="mLineFetchFun" default-tag="生活经验" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/小庄的资源收藏室-官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统数据项/index.md />
 
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-1号.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-3号.md fetchFun="mLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-网站.md fetchFun="sLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-软件.md fetchFun="sLineFetchFun" />
 
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-教程.md fetchFun="mLineFetchFun" />
 
-
-
-
-
-
-
+<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
