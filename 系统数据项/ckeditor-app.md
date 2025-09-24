@@ -340,9 +340,9 @@ const cache = window.MS_SCRIPT_ENV.cache;
 console.log("脚本应用-加载js...")
 
 /**
-    * GitHub 编辑器类 - 不依赖Octokit，使用原生Fetch API
-    * 新增：未选择文件时使用localStorage缓存编辑器内容
-    */
+* GitHub 编辑器类 - 不依赖Octokit，使用原生Fetch API
+* 新增：未选择文件时使用localStorage缓存编辑器内容
+*/
 class GitHubEditor {
     // 配置项
     #config = {
@@ -388,10 +388,11 @@ class GitHubEditor {
     };
 
     constructor() {
+        debugger
+
         // 初始化流程：事件监听 → 配置初始化 → 编辑器初始化 → 本地缓存加载
         this.#initEventListeners();
         this.#initSavedConfig();
-        debugger
         // 检查 ClassicEditor 对象是否存在
         function onClassicEditorLoadedLoaded(callback) {
             if (typeof ClassicEditor !== 'undefined') {
