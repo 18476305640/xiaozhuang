@@ -117,7 +117,8 @@ body {
     background: #f8f9fa;
     border-left: 1px solid #e1e4e8;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    padding: 0;
 }
 
 .sidebar-controls {
