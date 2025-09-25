@@ -398,18 +398,32 @@ class GitHubEditor {
     };
 
     constructor() {
-        debugger
-
         // 初始化流程：事件监听 → 配置初始化 → 编辑器初始化 → 本地缓存加载
         this.#initEventListeners();
         this.#initSavedConfig();
-        // 检查 ClassicEditor 对象是否存在
+
+        // 检查 ClassicEditor 对象是否存在，添加2分钟超时机制
         function onClassicEditorLoadedLoaded(callback) {
-            if (typeof ClassicEditor !== 'undefined') {
-                callback(); // 如果 ClassicEditor 已经加载，执行回调
-            } else {
-                setTimeout(() => onClassicEditorLoadedLoaded(callback), 50);
-            }
+            const timeoutMs = 120000; // 2分钟超时时间(毫秒)
+            const checkIntervalMs = 180; // 检查间隔时间(毫秒)
+            let elapsedMs = 0; // 已等待时间
+            
+            const checkTimer = setInterval(() => {
+                // 检查是否已超时
+                if (elapsedMs >= timeoutMs) {
+                    clearInterval(checkTimer);
+                    console.error('等待ClassicEditor加载超时');
+                    return;
+                }
+                
+                // 检查ClassicEditor是否已加载
+                if (typeof ClassicEditor !== 'undefined') {
+                    clearInterval(checkTimer);
+                    callback(); // 如果 ClassicEditor 已经加载，执行回调
+                } else {
+                    elapsedMs += checkIntervalMs;
+                }
+            }, checkIntervalMs);
         }
         onClassicEditorLoadedLoaded(() => this.#initCKEditor());
     }
