@@ -417,7 +417,6 @@ class GitHubEditor {
                     console.error('等待ClassicEditor加载超时');
                     return;
                 }
-                console.log("检测是否已加载",ClassicEditor )
                 // 检查ClassicEditor是否已加载
                 if (typeof ClassicEditor !== 'undefined') {
                     clearInterval(checkTimer);
