@@ -613,10 +613,38 @@ ClassicEditor
     .then(editor => {
         console.log('CKEditor 初始化成功');
         this.#editor = editor;
-        
+        class CustomUploadAdapter {
+            constructor( loader ) {
+                // The file loader instance to use during the upload.
+                this.loader = loader;
+            }
+
+            // Starts the upload process.
+            upload() {
+                debugger
+                // Return a promise that will be resolved when the file is uploaded.
+                return this.loader.file.then(
+                    (file) =>
+                    new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file); // 转 base64
+                        reader.onloadend = () => {
+                        resolve({
+                            default: reader.result
+                        });
+                        };
+                    })
+                );
+            }
+
+            // Aborts the upload process.
+            abort() {
+                // Reject the promise returned from the upload() method.
+                server.abortUpload();
+            }
+        }
         editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-            debugger
-            return null;
+            return new CustomUploadAdapter(loader);
         };
         
         // 加载本地缓存（仅当无当前文件时）
