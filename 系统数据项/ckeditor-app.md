@@ -9,7 +9,7 @@ function main({ cache, $, view, registry, open }) {
 }
 
 -- view:html --
-<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
 <div class="ms-container">
     <!-- 左侧编辑器 -->
     <div class="ms-editor-container">
@@ -497,49 +497,84 @@ class GitHubEditor {
         * 初始化本地存储的配置
         */
     #initSavedConfig() {
-        const savedConfig = cache.get('githubConfig');
-        if (savedConfig) {
-            this.#config = JSON.parse(savedConfig);
-            if (this.#config.token) {
-                this.loadFileTree();
-            }
-        }
-    }
-
-    /**
-        * 初始化 CKEditor
-        */
-    #initCKEditor() {
-        ClassicEditor
-            .create(document.querySelector('#ms-editor'), {
-                language: 'zh-cn',
+/**
+ * 初始化 CKEditor
+ */
+#initCKEditor() {
+    ClassicEditor
+        .create(document.querySelector('#ms-editor'), {
+            language: 'zh-cn',
+            height: '100%',
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'underline', 'strikethrough', '|',
+                'link', 'blockQuote', 'codeBlock', '|',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'alignment', 'outdent', 'indent', '|',
+                'insertTable', 'imageUpload', 'mediaEmbed', '|',
+                'undo', 'redo', 'removeFormat', 'horizontalLine'
+            ],
+            table: {
+                contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
+            },
+            image: {
                 toolbar: [
-                    'heading', '|',
-                    'bold', 'italic', 'link', '|',
-                    'bulletedList', 'numberedList', '|',
-                    'blockQuote', 'codeBlock', '|',
-                    'undo', 'redo'
-                ],
-                height: '100%'
-            })
-            .then(editor => {
-                this.#editor = editor;
-                // 加载本地缓存（仅当无当前文件时）
-                this.#loadLocalCache();
-                // 监听内容变化
-                editor.model.document.on('change:data', () => this.#handleContentChange());
-                // 监听焦点变化（失去焦点时保存）
-                editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
-                    if (!isFocused && this.#isContentChanged) {
-                        this.#saveContent();
-                    }
-                });
-            })
-            .catch(err => {
-                console.error('CKEditor 初始化失败:', err);
-                this.updateStatus('编辑器初始化失败', 'error');
+                    'imageTextAlternative',
+                    'imageStyle:inline',
+                    'imageStyle:block',
+                    'imageStyle:side'
+                ]
+            },
+            simpleUpload: {
+                uploadUrl: '' // 不依赖外部接口
+            }
+        })
+        .then(editor => {
+            this.#editor = editor;
+
+            // 👉 粘贴图片时转为 base64
+            editor.editing.view.document.on('clipboardInput', (evt, data) => {
+                const files = Array.from(data.dataTransfer.files);
+                if (files.length > 0) {
+                    evt.stop(); // 阻止默认行为
+                    files.forEach(file => {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = e => {
+                                editor.model.change(writer => {
+                                    const imageElement = writer.createElement('image', {
+                                        src: e.target.result
+                                    });
+                                    editor.model.insertContent(
+                                        imageElement,
+                                        editor.model.document.selection
+                                    );
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
             });
-    }
+
+            // 👉 加载本地缓存（仅当无当前文件时）
+            this.#loadLocalCache();
+
+            // 👉 监听内容变化
+            editor.model.document.on('change:data', () => this.#handleContentChange());
+
+            // 👉 监听焦点变化（失去焦点时保存）
+            editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
+                if (!isFocused && this.#isContentChanged) {
+                    this.#saveContent();
+                }
+            });
+        })
+        .catch(err => {
+            console.error('CKEditor 初始化失败:', err);
+            this.updateStatus('编辑器初始化失败', 'error');
+        });
+}
 
     /**
         * 显示模态框
