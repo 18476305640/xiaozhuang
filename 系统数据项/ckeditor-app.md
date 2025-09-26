@@ -81,7 +81,7 @@ function main({ cache, $, view, registry, open }) {
         <div class="ms-modal-header">创建新文件</div>
         <div class="ms-form-group">
             <label class="ms-form-label">文件名</label>
-            <input type="text" class="ms-form-input" id="ms-newFileName" placeholder="请输入文件名">
+            <input type="text" class="ms-form-input" id="ms-newFileName" placeholder="请输入文件名（若存在目录：目录名/文件名）...">
         </div>
         <div class="ms-modal-footer">
             <button class="ms-btn" id="ms-closeCreateBtn">取消</button>
