@@ -497,6 +497,19 @@ class GitHubEditor {
         * 初始化本地存储的配置
         */
     #initSavedConfig() {
+        const savedConfig = cache.get('githubConfig');
+        if (savedConfig) {
+            this.#config = JSON.parse(savedConfig);
+            if (this.#config.token) {
+                this.loadFileTree();
+            }
+        }
+    }
+
+    /**
+        * 初始化 CKEditor
+        */
+    #initCKEditor() {
         ClassicEditor
             .create(document.querySelector('#ms-editor'), {
                 language: 'zh-cn',
