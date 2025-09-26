@@ -10,85 +10,86 @@ function main({ cache, $, view, registry, open }) {
 
 -- view:html --
 <script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
-<div class="container">
+<div class="ms-container">
     <!-- 左侧编辑器 -->
-    <div class="editor-container">
-        <div class="editor-content">
-            <div id="editor"></div>
+    <div class="ms-editor-container">
+        <div class="ms-editor-content">
+            <div id="ms-editor"></div>
         </div>
-        <div class="status-bar" id="statusBar">就绪（使用本地缓存）</div>
+        <div class="ms-status-bar" id="ms-statusBar">就绪（使用本地缓存）</div>
     </div>
 
     <!-- 右侧文件管理 -->
-    <div class="sidebar">
-        <div class="sidebar-controls">
-            <button class="btn btn-primary" id="configBtn">配置</button>
-            <button class="btn" id="createBtn">创建</button>
+    <div class="ms-sidebar">
+        <div class="ms-sidebar-controls">
+            <button class="ms-btn ms-btn-primary" id="ms-configBtn">配置</button>
+            <button class="ms-btn" id="ms-createBtn">创建</button>
             <!-- 新增：本地模式按钮 -->
-            <button class="btn" id="localModeBtn">本地模式</button>
+            <button class="ms-btn" id="ms-localModeBtn">本地模式</button>
         </div>
-        <div class="file-tree" id="fileTree">
-            <div class="loading">请先配置 GitHub 信息</div>
+        <div class="ms-file-tree" id="ms-fileTree">
+            <div class="ms-loading">请先配置 GitHub 信息</div>
         </div>
     </div>
 </div>
 
 <!-- 配置模态框 -->
-<div class="modal" id="configModal">
-    <div class="modal-content">
-        <div class="modal-header">GitHub 配置</div>
+<div class="ms-modal" id="ms-configModal">
+    <div class="ms-modal-content">
+        <div class="ms-modal-header">GitHub 配置</div>
 
-        <div class="clipboard-buttons">
-            <button class="btn" id="pasteConfigBtn">从剪贴板『导入』配置</button>
-            <button class="btn" id="copyConfigBtn">『导出』配置到剪贴板</button>
+        <div class="ms-clipboard-buttons">
+            <button class="ms-btn" id="ms-pasteConfigBtn">从剪贴板『导入』配置</button>
+            <button class="ms-btn" id="ms-copyConfigBtn">『导出』配置到剪贴板</button>
         </div>
 
-        <div class="manual-input-section" style="display: none;">
-            <div class="form-group">
-                <label class="form-label">手动输入配置JSON（剪贴板读取失败）</label>
-                <textarea class="config-textarea" id="manualConfigInput"
+        <div class="ms-manual-input-section" style="display: none;">
+            <div class="ms-form-group">
+                <label class="ms-form-label">手动输入配置JSON（剪贴板读取失败）</label>
+                <textarea class="ms-config-textarea" id="ms-manualConfigInput"
                     placeholder='示例：{"token":"ghp_xxx","owner":"用户名","repo":"仓库名","branch":"main"}'></textarea>
             </div>
-            <button class="btn" id="parseManualConfigBtn">解析手动输入的配置</button>
+            <button class="ms-btn" id="ms-parseManualConfigBtn">解析手动输入的配置</button>
         </div>
 
-        <div class="form-group">
-            <label class="form-label">GitHub Token</label>
-            <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+        <div class="ms-form-group">
+            <label class="ms-form-label">GitHub Token</label>
+            <input type="password" class="ms-form-input" id="ms-githubToken" placeholder="ghp_xxxxxxxxxxxx">
         </div>
-        <div class="form-group">
-            <label class="form-label">仓库所有者</label>
-            <input type="text" class="form-input" id="repoOwner" placeholder="username">
+        <div class="ms-form-group">
+            <label class="ms-form-label">仓库所有者</label>
+            <input type="text" class="ms-form-input" id="ms-repoOwner" placeholder="username">
         </div>
-        <div class="form-group">
-            <label class="form-label">仓库名称</label>
-            <input type="text" class="form-input" id="repoName" placeholder="repository">
+        <div class="ms-form-group">
+            <label class="ms-form-label">仓库名称</label>
+            <input type="text" class="ms-form-input" id="ms-repoName" placeholder="repository">
         </div>
-        <div class="form-group">
-            <label class="form-label">分支</label>
-            <input type="text" class="form-input" id="branch" value="main">
+        <div class="ms-form-group">
+            <label class="ms-form-label">分支</label>
+            <input type="text" class="ms-form-input" id="ms-branch" value="main">
         </div>
-        <div class="modal-footer">
-            <button class="btn" id="closeConfigBtn">取消</button>
-            <button class="btn btn-primary" id="saveConfigBtn">保存</button>
+        <div class="ms-modal-footer">
+            <button class="ms-btn" id="ms-closeConfigBtn">取消</button>
+            <button class="ms-btn ms-btn-primary" id="ms-saveConfigBtn">保存</button>
         </div>
     </div>
 </div>
 
 <!-- 创建文件模态框 -->
-<div class="modal" id="createModal">
-    <div class="modal-content">
-        <div class="modal-header">创建新文件</div>
-        <div class="form-group">
-            <label class="form-label">文件名</label>
-            <input type="text" class="form-input" id="newFileName" placeholder="请输入文件名">
+<div class="ms-modal" id="ms-createModal">
+    <div class="ms-modal-content">
+        <div class="ms-modal-header">创建新文件</div>
+        <div class="ms-form-group">
+            <label class="ms-form-label">文件名</label>
+            <input type="text" class="ms-form-input" id="ms-newFileName" placeholder="请输入文件名">
         </div>
-        <div class="modal-footer">
-            <button class="btn" id="closeCreateBtn">取消</button>
-            <button class="btn btn-primary" id="confirmCreateBtn">创建</button>
+        <div class="ms-modal-footer">
+            <button class="ms-btn" id="ms-closeCreateBtn">取消</button>
+            <button class="ms-btn ms-btn-primary" id="ms-confirmCreateBtn">创建</button>
         </div>
     </div>
 </div>
+
 -- view:css --
 * {
     box-sizing: border-box;
@@ -100,19 +101,19 @@ body {
     overflow: hidden;
 }
 
-.container {
+.ms-container {
     display: flex;
     height: 100vh;
 }
 
-.editor-container {
+.ms-editor-container {
     flex: 2;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.sidebar {
+.ms-sidebar {
     width: 200px;
     background: #f8f9fa;
     border-left: 1px solid #e1e4e8;
@@ -122,7 +123,7 @@ body {
     margin: 0;
 }
 
-.sidebar-controls {
+.ms-sidebar-controls {
     padding: 12px;
     border-bottom: 1px solid #e1e4e8;
     display: flex;
@@ -130,7 +131,7 @@ body {
     justify-content: space-between;
 }
 
-.btn {
+.ms-btn {
     padding: 6px 12px;
     border: 1px solid #d1d5da;
     border-radius: 6px;
@@ -142,28 +143,28 @@ body {
     color: #0c0c0c;
 }
 
-.btn:hover {
+.ms-btn:hover {
     background: #f6f8fa;
     border-color: #0366d6
 }
 
-.btn-primary {
+.ms-btn-primary {
     background: #0366d6;
     color: white;
     border-color: #0366d6;
 }
 
-.btn-primary:hover {
+.ms-btn-primary:hover {
     background: #0256cc;
 }
 
-.file-tree {
+.ms-file-tree {
     flex: 1;
     overflow-y: auto;
     padding: 8px;
 }
 
-.file-item {
+.ms-file-item {
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 6px;
@@ -175,7 +176,7 @@ body {
     font-size: 14px;
 }
 
-.delete-btn {
+.ms-delete-btn {
     display: none;
     position: absolute;
     right: 8px;
@@ -187,55 +188,55 @@ body {
     border-radius: 4px;
 }
 
-.delete-btn:hover {
+.ms-delete-btn:hover {
     background: #ffeef0;
 }
 
-.file-item:hover .delete-btn {
+.ms-file-item:hover .ms-delete-btn {
     display: block;
 }
 
-.file-item.active {
+.ms-file-item.active {
     background: #e1f0ff;
     color: #0366d6;
 }
 
-.folder-icon::before {
+.ms-folder-icon::before {
     content: "📁";
 }
 
-.file-icon::before {
+.ms-file-icon::before {
     content: "📄";
 }
-.tree-node-name {
+.ms-tree-node-name {
     /* 新增以下属性实现文本超出省略号 */
     white-space: nowrap;  /* 防止文本换行 */
     overflow: hidden;     /* 隐藏超出容器的内容 */
     text-overflow: ellipsis;  /* 超出部分显示省略号 */
 }
-.editor-content {
+.ms-editor-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.editor-content .ck-editor {
+.ms-editor-content .ck-editor {
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.editor-content .ck-editor__main {
+.ms-editor-content .ck-editor__main {
     flex: 1;
     overflow: auto;
 }
 
-.editor-content .ck-editor__editable {
+.ms-editor-content .ck-editor__editable {
     min-height: 100%;
 }
 
-.status-bar {
+.ms-status-bar {
     padding: 8px 16px;
     background: #f6f8fa;
     border-top: 1px solid #e1e4e8;
@@ -243,7 +244,7 @@ body {
     color: #586069;
 }
 
-.modal {
+.ms-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -254,7 +255,7 @@ body {
     z-index: 1000;
 }
 
-.modal-content {
+.ms-modal-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -266,23 +267,23 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
 }
 
-.modal-header {
+.ms-modal-header {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 16px;
 }
 
-.form-group {
+.ms-form-group {
     margin-bottom: 16px;
 }
 
-.form-label {
+.ms-form-label {
     display: block;
     margin-bottom: 4px;
     font-weight: 500;
 }
 
-.form-input {
+.ms-form-input {
     width: 100%;
     padding: 8px 12px;
     border: 1px solid #d1d5da;
@@ -290,7 +291,7 @@ body {
     font-size: 14px;
 }
 
-.config-textarea {
+.ms-config-textarea {
     width: 100%;
     min-height: 120px;
     padding: 8px 12px;
@@ -303,32 +304,32 @@ body {
     overflow-x: auto;
 }
 
-.clipboard-buttons {
+.ms-clipboard-buttons {
     display: flex;
     gap: 8px;
     margin-bottom: 16px;
 }
 
-.manual-input-section {
+.ms-manual-input-section {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px dashed #e1e4e8;
 }
 
-.modal-footer {
+.ms-modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
     margin-top: 16px;
 }
 
-.loading {
+.ms-loading {
     text-align: center;
     padding: 20px;
     color: #586069;
 }
 
-.error {
+.ms-error {
     color: #d73a49;
     background: #ffeef0;
     padding: 8px 12px;
@@ -336,7 +337,7 @@ body {
     margin: 8px 0;
 }
 
-.success {
+.ms-success {
     color: #28a745;
     background: #f0fff4;
     padding: 8px 12px;
@@ -373,28 +374,28 @@ class GitHubEditor {
 
     // DOM 元素缓存
     #elements = {
-        statusBar: document.getElementById('statusBar'),
-        fileTree: document.getElementById('fileTree'),
-        configModal: document.getElementById('configModal'),
-        createModal: document.getElementById('createModal'),
-        githubToken: document.getElementById('githubToken'),
-        repoOwner: document.getElementById('repoOwner'),
-        repoName: document.getElementById('repoName'),
-        branch: document.getElementById('branch'),
-        newFileName: document.getElementById('newFileName'),
-        configBtn: document.getElementById('configBtn'),
-        createBtn: document.getElementById('createBtn'),
+        statusBar: document.getElementById('ms-statusBar'),
+        fileTree: document.getElementById('ms-fileTree'),
+        configModal: document.getElementById('ms-configModal'),
+        createModal: document.getElementById('ms-createModal'),
+        githubToken: document.getElementById('ms-githubToken'),
+        repoOwner: document.getElementById('ms-repoOwner'),
+        repoName: document.getElementById('ms-repoName'),
+        branch: document.getElementById('ms-branch'),
+        newFileName: document.getElementById('ms-newFileName'),
+        configBtn: document.getElementById('ms-configBtn'),
+        createBtn: document.getElementById('ms-createBtn'),
         // 新增：本地模式按钮引用
-        localModeBtn: document.getElementById('localModeBtn'),
-        closeConfigBtn: document.getElementById('closeConfigBtn'),
-        saveConfigBtn: document.getElementById('saveConfigBtn'),
-        closeCreateBtn: document.getElementById('closeCreateBtn'),
-        confirmCreateBtn: document.getElementById('confirmCreateBtn'),
-        copyConfigBtn: document.getElementById('copyConfigBtn'),
-        pasteConfigBtn: document.getElementById('pasteConfigBtn'),
-        manualConfigInput: document.getElementById('manualConfigInput'),
-        parseManualConfigBtn: document.getElementById('parseManualConfigBtn'),
-        manualInputSection: document.querySelector('.manual-input-section')
+        localModeBtn: document.getElementById('ms-localModeBtn'),
+        closeConfigBtn: document.getElementById('ms-closeConfigBtn'),
+        saveConfigBtn: document.getElementById('ms-saveConfigBtn'),
+        closeCreateBtn: document.getElementById('ms-closeCreateBtn'),
+        confirmCreateBtn: document.getElementById('ms-confirmCreateBtn'),
+        copyConfigBtn: document.getElementById('ms-copyConfigBtn'),
+        pasteConfigBtn: document.getElementById('ms-pasteConfigBtn'),
+        manualConfigInput: document.getElementById('ms-manualConfigInput'),
+        parseManualConfigBtn: document.getElementById('ms-parseManualConfigBtn'),
+        manualInputSection: document.querySelector('.ms-manual-input-section')
     };
 
     constructor() {
@@ -483,7 +484,7 @@ class GitHubEditor {
         this.#isContentChanged = false;
         
         // 取消文件高亮
-        document.querySelectorAll('.file-item').forEach(item => {
+        document.querySelectorAll('.ms-file-item').forEach(item => {
             item.classList.remove('active');
         });
         
@@ -509,7 +510,7 @@ class GitHubEditor {
         */
     #initCKEditor() {
         ClassicEditor
-            .create(document.querySelector('#editor'), {
+            .create(document.querySelector('#ms-editor'), {
                 language: 'zh-cn',
                 toolbar: [
                     'heading', '|',
@@ -643,7 +644,7 @@ class GitHubEditor {
         if (!this.#config.token) return;
 
         const fileTree = this.#elements.fileTree;
-        fileTree.innerHTML = '<div class="loading">加载中...</div>';
+        fileTree.innerHTML = '<div class="ms-loading">加载中...</div>';
 
         try {
             const url = `https://api.github.com/repos/${this.#config.owner}/${this.#config.repo}/contents/${path}?ref=${this.#config.branch}&time=${Date.now()}`;
@@ -656,7 +657,7 @@ class GitHubEditor {
             fileTree.innerHTML = '';
             this.#renderFileTree(data, fileTree, path);
         } catch (error) {
-            fileTree.innerHTML = `<div class="error">加载失败：${error.message}</div>`;
+            fileTree.innerHTML = `<div class="ms-error">加载失败：${error.message}</div>`;
             this.updateStatus('加载文件树失败', 'error');
         }
     }
@@ -674,7 +675,7 @@ class GitHubEditor {
 
         filteredItems.forEach(item => {
             const itemElement = document.createElement('div');
-            itemElement.className = 'file-item';
+            itemElement.className = 'ms-file-item';
             itemElement.dataset.path = item.path;
 
             const pathDepth = parentPath ? parentPath.split('/').length + 1 : 1;
@@ -682,31 +683,31 @@ class GitHubEditor {
 
             if (item.type === 'dir') {
                 itemElement.innerHTML = `
-                    <span class="folder-icon"></span>
-                    <span class="tree-node-name" title="${item.name}">${item.name}</span>
+                    <span class="ms-folder-icon"></span>
+                    <span class="ms-tree-node-name" title="${item.name}">${item.name}</span>
                 `;
                 itemElement.addEventListener('click', () => this.#toggleFolder(item.path, itemElement));
 
                 container.appendChild(itemElement);
 
                 const childrenContainer = document.createElement('div');
-                childrenContainer.className = 'folder-children';
+                childrenContainer.className = 'ms-folder-children';
                 childrenContainer.style.display = 'none';
                 container.appendChild(childrenContainer);
             } else {
                 itemElement.innerHTML = `
-                    <span class="file-icon"></span>
-                    <span class="tree-node-name" title="${item.name}">${item.name}</span>
-                    <button class="delete-btn" title="删除文件">🗑️</button>
+                    <span class="ms-file-icon"></span>
+                    <span class="ms-tree-node-name" title="${item.name}">${item.name}</span>
+                    <button class="ms-delete-btn" title="删除文件">🗑️</button>
                 `;
 
                 itemElement.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('delete-btn')) {
+                    if (!e.target.classList.contains('ms-delete-btn')) {
                         this.openFile(item.path, item.name, itemElement);
                     }
                 });
 
-                const deleteBtn = itemElement.querySelector('.delete-btn');
+                const deleteBtn = itemElement.querySelector('.ms-delete-btn');
                 deleteBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     this.#deleteFile(item.path, item.name);
@@ -732,7 +733,7 @@ class GitHubEditor {
             folderElement.style.background = '#f1f8ff';
 
             if (childrenContainer.innerHTML === '') {
-                childrenContainer.innerHTML = '<div class="loading">加载中...</div>';
+                childrenContainer.innerHTML = '<div class="ms-loading">加载中...</div>';
                 try {
                     const url = `https://api.github.com/repos/${this.#config.owner}/${this.#config.repo}/contents/${path}?ref=${this.#config.branch}&time=${Date.now()}`;
                     const response = await fetch(url, {
@@ -744,7 +745,7 @@ class GitHubEditor {
                     childrenContainer.innerHTML = '';
                     this.#renderFileTree(data, childrenContainer, path);
                 } catch (error) {
-                    childrenContainer.innerHTML = '<div class="error">加载失败</div>';
+                    childrenContainer.innerHTML = '<div class="ms-error">加载失败</div>';
                 }
             }
         } else {
@@ -795,7 +796,7 @@ class GitHubEditor {
         * 高亮当前活动文件
         */
     #highlightActiveFile(activeElement) {
-        document.querySelectorAll('.file-item').forEach(item => {
+        document.querySelectorAll('.ms-file-item').forEach(item => {
             item.classList.remove('active');
         });
 
@@ -860,7 +861,7 @@ class GitHubEditor {
     #openNewlyCreatedFile(fileName) {
         if (!fileName) return;
 
-        const fileItems = document.querySelectorAll('.file-item[data-path]');
+        const fileItems = document.querySelectorAll('.ms-file-item[data-path]');
         let targetItem = null;
 
         // 精确匹配路径
@@ -873,7 +874,7 @@ class GitHubEditor {
         // 文件名匹配
         if (!targetItem) {
             fileItems.forEach(item => {
-                if (item.textContent.trim() === fileName && item.querySelector('.file-icon')) {
+                if (item.textContent.trim() === fileName && item.querySelector('.ms-file-icon')) {
                     targetItem = item;
                 }
             });
@@ -1063,7 +1064,7 @@ class GitHubEditor {
         * 处理模态框外部点击
         */
     #handleOutsideClick(e) {
-        if (e.target.classList.contains('modal')) {
+        if (e.target.classList.contains('ms-modal')) {
             e.target.style.display = 'none';
         }
     }
