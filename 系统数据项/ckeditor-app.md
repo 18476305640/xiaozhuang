@@ -510,79 +510,175 @@ class GitHubEditor {
         * 初始化 CKEditor
         */
     #initCKEditor() {
-        ClassicEditor
-            .create(document.querySelector('#ms-editor'), {
-                language: 'zh-cn',
-                height: '100%',
-                toolbar: [
-                    'heading', '|',
-                    'bold', 'italic', 'underline', 'strikethrough', '|',
-                    'link', 'blockQuote', 'codeBlock', '|',
-                    'bulletedList', 'numberedList', 'todoList', '|',
-                    'alignment', 'outdent', 'indent', '|',
-                    'insertTable', 'imageUpload', 'mediaEmbed', '|',
-                    'undo', 'redo', 'removeFormat', 'horizontalLine'
-                ],
-                table: {
-                    contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
-                },
-                image: {
-                    toolbar: [
-                        'imageTextAlternative',
-                        'imageStyle:inline',
-                        'imageStyle:block',
-                        'imageStyle:side'
-                    ]
-                },
-                simpleUpload: {
-                    uploadUrl: '' // 不依赖外部接口
-                }
-            })
-            .then(editor => {
-                this.#editor = editor;
-
-                // 👉 粘贴图片时转为 base64
-                editor.editing.view.document.on('clipboardInput', (evt, data) => {
-                    const files = Array.from(data.dataTransfer.files);
-                    if (files.length > 0) {
-                        evt.stop(); // 阻止默认行为
-                        files.forEach(file => {
-                            if (file.type.startsWith('image/')) {
+ClassicEditor
+    .create(document.querySelector('#ms-editor'), {
+        language: 'zh-cn',
+        toolbar: [
+            'heading', '|',
+            'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+            'link', 'imageUpload', 'mediaEmbed', 'insertTable', '|',
+            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
+            'alignment', 'lineHeight', '|',
+            'blockQuote', 'codeBlock', '|',
+            'findAndReplace', 'removeFormat', '|',
+            'undo', 'redo'
+        ],
+        height: '100%',
+        // 配置图片上传处理
+        image: {
+            toolbar: [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'imageTextAlternative',
+                'toggleImageCaption'
+            ],
+            // 禁用默认的图片上传适配器
+            upload: {
+                adapter: {
+                    upload: (loader) => {
+                        console.log('开始处理图片上传...');
+                        return new Promise((resolve, reject) => {
+                            // 读取图片文件
+                            loader.file.then(file => {
+                                console.log('获取到图片文件:', {
+                                    name: file.name,
+                                    size: file.size,
+                                    type: file.type,
+                                    lastModified: new Date(file.lastModified)
+                                });
+                                
                                 const reader = new FileReader();
-                                reader.onload = e => {
-                                    editor.model.change(writer => {
-                                        const imageElement = writer.createElement('image', {
-                                            src: e.target.result
-                                        });
-                                        editor.model.insertContent(
-                                            imageElement,
-                                            editor.model.document.selection
-                                        );
+                                
+                                reader.onload = function(event) {
+                                    console.log('图片文件读取完成，准备转换为Base64');
+                                    // 获取Base64数据
+                                    const base64Data = event.target.result;
+                                    
+                                    // 解析文件类型
+                                    const mimeType = file.type;
+                                    
+                                    console.log(`图片转换为Base64成功 (${mimeType})，长度: ${base64Data.length}`);
+                                    // 构造CKEditor期望的响应格式
+                                    resolve({
+                                        default: base64Data
                                     });
                                 };
+                                
+                                reader.onerror = function() {
+                                    console.error('图片文件读取失败', reader.error);
+                                    reject('无法读取图片文件: ' + reader.error.message);
+                                };
+                                
+                                // 读取文件并转换为Base64
                                 reader.readAsDataURL(file);
-                            }
+                            }).catch(error => {
+                                console.error('获取图片文件失败', error);
+                                reject('获取图片文件失败: ' + error.message);
+                            });
                         });
                     }
-                });
-
-                // 👉 加载本地缓存（仅当无当前文件时）
-                this.#loadLocalCache();
-
-                // 👉 监听内容变化
-                editor.model.document.on('change:data', () => this.#handleContentChange());
-
-                // 👉 监听焦点变化（失去焦点时保存）
-                editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
-                    if (!isFocused && this.#isContentChanged) {
-                        this.#saveContent();
+                }
+            }
+        },
+        // 配置粘贴处理，确保粘贴的图片也转为Base64
+        paste: {
+            // 处理粘贴的图片
+            handleImages: true,
+            // 保留粘贴内容的格式
+            preserveStyles: true
+        },
+        // 字体配置
+        fontFamily: {
+            options: [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif'
+            ]
+        },
+        fontSize: {
+            options: [
+                9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 36, 48, 60, 72
+            ]
+        }
+    })
+    .then(editor => {
+        console.log('CKEditor 初始化成功');
+        this.#editor = editor;
+        
+        // 监听粘贴事件，确保粘贴的图片转为Base64
+        editor.editing.view.document.on('paste', (event) => {
+            console.log('检测到粘贴事件');
+            const data = event.dataTransfer;
+            const items = data.items || [];
+            
+            // 检查是否有图片被粘贴
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    console.log('检测到粘贴的图片，类型:', items[i].type);
+                    const file = items[i].getAsFile();
+                    if (file) {
+                        console.log('获取到粘贴的图片文件:', {
+                            name: file.name,
+                            size: file.size,
+                            type: file.type
+                        });
+                        // 阻止默认粘贴行为
+                        event.preventDefault();
+                        
+                        // 转换为Base64并插入
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            console.log('粘贴的图片转换为Base64成功');
+                            editor.model.change(writer => {
+                                const imageElement = writer.createElement('imageBlock', {
+                                    src: e.target.result
+                                });
+                                editor.model.insertContent(imageElement, editor.model.document.selection);
+                                console.log('图片已插入到编辑器中');
+                            });
+                        };
+                        reader.onerror = function() {
+                            console.error('粘贴图片读取失败', reader.error);
+                        };
+                        reader.readAsDataURL(file);
                     }
-                });
-            })
-            .catch(err => {
-                console.error('CKEditor 初始化失败:', err);
-                this.updateStatus('编辑器初始化失败', 'error');
-            });
+                }
+            }
+        });
+        
+        // 加载本地缓存（仅当无当前文件时）
+        console.log('准备加载本地缓存');
+        this.#loadLocalCache();
+        
+        // 监听内容变化
+        editor.model.document.on('change:data', () => {
+            console.log('编辑器内容发生变化');
+            this.#handleContentChange();
+        });
+        
+        // 监听焦点变化（失去焦点时保存）
+        editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
+            console.log(`编辑器焦点变化: ${isFocused ? '获得焦点' : '失去焦点'}`);
+            if (!isFocused && this.#isContentChanged) {
+                console.log('编辑器失去焦点，准备保存内容');
+                this.#saveContent();
+            }
+        });
+    })
+    .catch(err => {
+        console.error('CKEditor 初始化失败:', err);
+        this.updateStatus('编辑器初始化失败', 'error');
+    });
+    
     }
 
     /**
