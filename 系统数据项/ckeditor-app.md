@@ -399,6 +399,7 @@ class GitHubEditor {
     };
 
     constructor() {
+        console.log("开始初始化")
         // 初始化流程：事件监听 → 配置初始化 → 编辑器初始化 → 本地缓存加载
         this.#initEventListeners();
         this.#initSavedConfig();
@@ -416,7 +417,7 @@ class GitHubEditor {
                     console.error('等待ClassicEditor加载超时');
                     return;
                 }
-                
+                console.log("检测是否已加载",ClassicEditor )
                 // 检查ClassicEditor是否已加载
                 if (typeof ClassicEditor !== 'undefined') {
                     clearInterval(checkTimer);
