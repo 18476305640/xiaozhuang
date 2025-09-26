@@ -614,46 +614,10 @@ ClassicEditor
         console.log('CKEditor 初始化成功');
         this.#editor = editor;
         
-        // 监听粘贴事件，确保粘贴的图片转为Base64
-        editor.editing.view.document.on('paste', (event) => {
-            console.log('检测到粘贴事件');
-            const data = event.dataTransfer;
-            const items = data.items || [];
-            
-            // 检查是否有图片被粘贴
-            for (let i = 0; i < items.length; i++) {
-                if (items[i].type.indexOf('image') !== -1) {
-                    console.log('检测到粘贴的图片，类型:', items[i].type);
-                    const file = items[i].getAsFile();
-                    if (file) {
-                        console.log('获取到粘贴的图片文件:', {
-                            name: file.name,
-                            size: file.size,
-                            type: file.type
-                        });
-                        // 阻止默认粘贴行为
-                        event.preventDefault();
-                        
-                        // 转换为Base64并插入
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            console.log('粘贴的图片转换为Base64成功');
-                            editor.model.change(writer => {
-                                const imageElement = writer.createElement('imageBlock', {
-                                    src: e.target.result
-                                });
-                                editor.model.insertContent(imageElement, editor.model.document.selection);
-                                console.log('图片已插入到编辑器中');
-                            });
-                        };
-                        reader.onerror = function() {
-                            console.error('粘贴图片读取失败', reader.error);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            }
-        });
+        .plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+            debugger
+            return null;
+        };
         
         // 加载本地缓存（仅当无当前文件时）
         console.log('准备加载本地缓存');
