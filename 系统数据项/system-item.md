@@ -10,23 +10,15 @@
 
 
 # [系统项] 关于脚本（作者 & 脚本）
-**作者：**Zhuang Jie   **联系信息：** 2119299531@qq.com
-
-**脚本简述：**
-
-由于热爱收集各类软件和网站，因此积累了大量的信息。之前我常常通过文字搜索（`Ctrl+F `）在记录中找到所需信息。然而，这种方式并不总是高效而直观。因此，我开发了这款脚本，它可以帮助我更快地检索和导航到我需要的信息。通过这款脚本，我能够更有效地管理并使用我的收集的所有资源。
+> 由于热爱收集各类软件和网站，因此积累了大量的信息。之前我常常通过文字搜索（`Ctrl+F `）在记录中找到所需信息。然而，这种方式并不总是高效而直观。因此，我开发了这款脚本，它可以帮助我更快地检索和导航到我需要的信息。通过这款脚本，我能够更有效地管理并使用我的收集的所有资源。
 
 [更新日志](https://github.com/My-Search/my-search/blob/master/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97.md) | [意见反馈/内容提交](https://github.com/18476305640/xiaozhuang/issues/new) 
-
-**脚本技术支持：**
-
+**作者**：Zhuang Jie
+**邮箱**：2119299531@qq.com
+**致谢**：
 - [实现MD转HTML](https://github.com/18476305640/xiaozhuang/blob/dev/script-supper/%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0md%E8%BD%AChtml.md)
-
-**支持作者**
-
-如果你觉得我们的产品有价值，并希望我们能持续改进和开发新的功能，我们真诚的请求你考虑支持我们。你可以选择捐款。每一次的支持，对我们都非常重要。
-
-[请作者喝杯咖啡](https://cdn.jsdelivr.net/gh/18476305640/typora@master/images/2023/07/24/1690179329689.png)  | [福利机场导入](clash://install-config?url=https%3A%2F%2Fsub2.smallstrawberry.com%2Fapi%2Fv1%2Fclient%2Fsubscribe%3Ftoken%3D2bfb524a3b4e4c9b861e3054746a9d21)
+**其它**：
+- [公益Clash订阅](clash://install-config?url=https%3A%2F%2Fsub2.smallstrawberry.com%2Fapi%2Fv1%2Fclient%2Fsubscribe%3Ftoken%3D2bfb524a3b4e4c9b861e3054746a9d21)
 
 # [h'脚本'][系统项]新数据项（订阅作者新添加的项）
 -- env --
