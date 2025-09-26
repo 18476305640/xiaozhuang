@@ -510,125 +510,132 @@ class GitHubEditor {
         * 初始化 CKEditor
         */
     #initCKEditor() {
-ClassicEditor
-    .create(document.querySelector('#ms-editor'), {
-        language: 'zh-cn',
-        toolbar: [
-            'heading', '|',
-            'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-            'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
-            'link', 'imageUpload', 'mediaEmbed', 'insertTable', '|',
-            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
-            'alignment', 'lineHeight', '|',
-            'blockQuote', 'codeBlock', '|',
-            'findAndReplace', 'removeFormat', '|',
-            'undo', 'redo'
-        ],
-        height: '100%',
-        // 配置图片上传处理
-        image: {
-            toolbar: [
-                'imageStyle:inline',
-                'imageStyle:block',
-                'imageStyle:side',
-                '|',
-                'imageTextAlternative',
-                'toggleImageCaption'
-            ]
-        },
-        // 配置粘贴处理，确保粘贴的图片也转为Base64
-        paste: {
-            // 处理粘贴的图片
-            handleImages: true,
-            // 保留粘贴内容的格式
-            preserveStyles: true
-        },
-        // 字体配置
-        fontFamily: {
-            options: [
-                'default',
-                'Arial, Helvetica, sans-serif',
-                'Courier New, Courier, monospace',
-                'Georgia, serif',
-                'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                'Tahoma, Geneva, sans-serif',
-                'Times New Roman, Times, serif',
-                'Trebuchet MS, Helvetica, sans-serif',
-                'Verdana, Geneva, sans-serif'
-            ]
-        },
-        fontSize: {
-            options: [
-                9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 36, 48, 60, 72
-            ]
-        }
-    })
-    .then(editor => {
-        console.log('CKEditor 初始化成功');
-        this.#editor = editor;
-        class CustomUploadAdapter {
-            constructor( loader ) {
-                // The file loader instance to use during the upload.
-                this.loader = loader;
-            }
+        ClassicEditor
+            .create(document.querySelector('#ms-editor'), {
+                language: 'zh-cn',
+                toolbar: [
+                    'heading', '|',
+                    'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+                    'link', 'imageUpload', 'mediaEmbed', 'insertTable', '|',
+                    'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
+                    'alignment', 'lineHeight', '|',
+                    'blockQuote', 'codeBlock', '|',
+                    'findAndReplace', 'removeFormat', '|',
+                    'undo', 'redo'
+                ],
+                height: '100%',
+                // 配置图片上传处理
+                image: {
+                    // 图片大小可调整配置
+                    resizeOptions: [
+                        { name: 'resizeImage:original', value: null, label: 'Original' },
+                        { name: 'resizeImage:50', value: '50', label: '50%' },
+                        { name: 'resizeImage:75', value: '75', label: '75%' },
+                        { name: 'resizeImage:custom', value: 'custom', label: 'Custom' }
+                    ],
+                    toolbar: [
+                        'imageStyle:inline',
+                        'imageStyle:block',
+                        'imageStyle:side',
+                        '|',
+                        'resizeImage', '|', 'imageTextAlternative', // 图片大小可调整配置
+                        'toggleImageCaption'
+                    ]
+                },
+                // 配置粘贴处理，确保粘贴的图片也转为Base64
+                paste: {
+                    // 处理粘贴的图片
+                    handleImages: true,
+                    // 保留粘贴内容的格式
+                    preserveStyles: true
+                },
+                // 字体配置
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ]
+                },
+                fontSize: {
+                    options: [
+                        9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 36, 48, 60, 72
+                    ]
+                }
+            })
+            .then(editor => {
+                console.log('CKEditor 初始化成功');
+                this.#editor = editor;
+                // 定义图片上传适配器
+                class CustomUploadAdapter {
+                    constructor( loader ) {
+                        // The file loader instance to use during the upload.
+                        this.loader = loader;
+                    }
 
-            // Starts the upload process.
-            upload() {
-                debugger
-                // Return a promise that will be resolved when the file is uploaded.
-                return this.loader.file.then(
-                    (file) =>
-                    new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file); // 转 base64
-                        reader.onloadend = () => {
-                        resolve({
-                            default: reader.result
-                        });
-                        };
-                    })
-                );
-            }
+                    // Starts the upload process.
+                    upload() {
+                        // Return a promise that will be resolved when the file is uploaded.
+                        return this.loader.file.then(
+                            (file) =>
+                            new Promise((resolve) => {
+                                const reader = new FileReader();
+                                reader.readAsDataURL(file); // 转 base64
+                                reader.onloadend = () => {
+                                resolve({
+                                    default: reader.result
+                                });
+                                };
+                            })
+                        );
+                    }
 
-            // Aborts the upload process.
-            abort() {
-                // Reject the promise returned from the upload() method.
-                server.abortUpload();
-            }
-        }
-        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-            return new CustomUploadAdapter(loader);
-        };
-        
-        // 加载本地缓存（仅当无当前文件时）
-        console.log('准备加载本地缓存');
-        this.#loadLocalCache();
-        
-        // 监听内容变化
-        editor.model.document.on('change:data', () => {
-            console.log('编辑器内容发生变化');
-            this.#handleContentChange();
-        });
-        
-        // 监听焦点变化（失去焦点时保存）
-        editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
-            console.log(`编辑器焦点变化: ${isFocused ? '获得焦点' : '失去焦点'}`);
-            if (!isFocused && this.#isContentChanged) {
-                console.log('编辑器失去焦点，准备保存内容');
-                this.#saveContent();
-            }
-        });
-    })
-    .catch(err => {
-        console.error('CKEditor 初始化失败:', err);
-        this.updateStatus('编辑器初始化失败', 'error');
-    });
+                    // Aborts the upload process.
+                    abort() {
+                        // Reject the promise returned from the upload() method.
+                        server.abortUpload();
+                    }
+                }
+                editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+                    return new CustomUploadAdapter(loader);
+                };
+                
+                // 加载本地缓存（仅当无当前文件时）
+                console.log('准备加载本地缓存');
+                this.#loadLocalCache();
+                
+                // 监听内容变化
+                editor.model.document.on('change:data', () => {
+                    console.log('编辑器内容发生变化');
+                    this.#handleContentChange();
+                });
+                
+                // 监听焦点变化（失去焦点时保存）
+                editor.ui.focusTracker.on('change:isFocused', (_, __, isFocused) => {
+                    console.log(`编辑器焦点变化: ${isFocused ? '获得焦点' : '失去焦点'}`);
+                    if (!isFocused && this.#isContentChanged) {
+                        console.log('编辑器失去焦点，准备保存内容');
+                        this.#saveContent();
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('CKEditor 初始化失败:', err);
+                this.updateStatus('编辑器初始化失败', 'error');
+            });
     
     }
 
     /**
-        * 显示模态框
-        */
+    * 显示模态框
+    */
     showModal(type) {
         if (type === 'create' && !this.#config.token) {
             this.updateStatus('请先配置 GitHub 信息', 'error');
