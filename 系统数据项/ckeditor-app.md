@@ -534,54 +534,7 @@ ClassicEditor
                 '|',
                 'imageTextAlternative',
                 'toggleImageCaption'
-            ],
-            // 禁用默认的图片上传适配器
-            upload: {
-                adapter: {
-                    upload: (loader) => {
-                        console.log('开始处理图片上传...');
-                        return new Promise((resolve, reject) => {
-                            // 读取图片文件
-                            loader.file.then(file => {
-                                console.log('获取到图片文件:', {
-                                    name: file.name,
-                                    size: file.size,
-                                    type: file.type,
-                                    lastModified: new Date(file.lastModified)
-                                });
-                                
-                                const reader = new FileReader();
-                                
-                                reader.onload = function(event) {
-                                    console.log('图片文件读取完成，准备转换为Base64');
-                                    // 获取Base64数据
-                                    const base64Data = event.target.result;
-                                    
-                                    // 解析文件类型
-                                    const mimeType = file.type;
-                                    
-                                    console.log(`图片转换为Base64成功 (${mimeType})，长度: ${base64Data.length}`);
-                                    // 构造CKEditor期望的响应格式
-                                    resolve({
-                                        default: base64Data
-                                    });
-                                };
-                                
-                                reader.onerror = function() {
-                                    console.error('图片文件读取失败', reader.error);
-                                    reject('无法读取图片文件: ' + reader.error.message);
-                                };
-                                
-                                // 读取文件并转换为Base64
-                                reader.readAsDataURL(file);
-                            }).catch(error => {
-                                console.error('获取图片文件失败', error);
-                                reject('获取图片文件失败: ' + error.message);
-                            });
-                        });
-                    }
-                }
-            }
+            ]
         },
         // 配置粘贴处理，确保粘贴的图片也转为Base64
         paste: {
