@@ -10,7 +10,6 @@ function main({ cache, $, view, registry, open }) {
 
 -- view:html --
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@39.0.0/build/ckeditor.js"></script>
 <div class="ms-container">
     <!-- 左侧编辑器 -->
     <div class="ms-editor-container">
@@ -525,40 +524,14 @@ class GitHubEditor {
                     'findAndReplace', 'removeFormat', '|',
                     'undo', 'redo'
                 ],
-                fontColor: {
-                    colors: [
-                        { label: '红色', color: '#ff0000' },
-                        { label: '绿色', color: '#00ff00' },
-                        { label: '蓝色', color: '#0000ff' },
-                        { label: '黑色', color: '#000000' }
-                    ],
-                    columns: 4
-                },
-                fontBackgroundColor: {
-                    colors: [
-                        { label: '黄色', color: '#ffff00' },
-                        { label: '紫色', color: '#800080' },
-                        { label: '橙色', color: '#ffa500' },
-                        { label: '灰色', color: '#808080' }
-                    ],
-                    columns: 4
-                },
                 height: '100%',
                 // 配置图片上传处理
                 image: {
-                    // 图片大小可调整配置
-                    resizeOptions: [
-                        { name: 'resizeImage:original', value: null, label: 'Original' },
-                        { name: 'resizeImage:50', value: '50', label: '50%' },
-                        { name: 'resizeImage:75', value: '75', label: '75%' },
-                        { name: 'resizeImage:custom', value: 'custom', label: 'Custom' }
-                    ],
                     toolbar: [
                         'imageStyle:inline',
                         'imageStyle:block',
                         'imageStyle:side',
                         '|',
-                        'resizeImage', '|', 'imageTextAlternative', // 图片大小可调整配置
                         'toggleImageCaption'
                     ]
                 },
