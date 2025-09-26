@@ -614,7 +614,7 @@ ClassicEditor
         console.log('CKEditor 初始化成功');
         this.#editor = editor;
         
-        .plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
             debugger
             return null;
         };
