@@ -1,4 +1,4 @@
-<tis::18.md fetchFun="mLineFetchFun" default-tag="h'Adults only'" />
+<tis::18.md fetchFun="mLineFetchFun" default-tag="Adults only" />
 
 <tis::常见官网.md fetchFun="mLineFetchFun" default-tag="h'常见官网'" />
 
