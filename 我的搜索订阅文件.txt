@@ -1,16 +1,6 @@
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/系统数据项/index.md />
+<tis::系统数据项/index.md />
 
+<tis::资源收藏室/网站/index.md />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-1号.md fetchFun="mLineFetchFun" />
+<tis::资源收藏室/应用/index.md />
 
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-2号.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-3号.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-网站.md fetchFun="sLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-软件.md fetchFun="sLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-教程.md fetchFun="mLineFetchFun" />
-
-<tis::https://raw.githubusercontent.com/18476305640/xiaozhuang/dev/资源收藏室/小庄的资源收藏室-官网.md fetchFun="mLineFetchFun" default-tag="h'官网'" />
