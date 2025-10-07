@@ -1,6 +1,6 @@
 # 我的搜索-官方订阅
 **欢迎提 Issues/PR 来投稿！**
-> [!WARNING]
+> [!TIP]
 > 使用该订阅，脚本版本 >= `7.0.0`, 最好使用最新版本！
 
 [我的搜索官方订阅模板](https://github.com/My-Search/ms-subscribe-template)
