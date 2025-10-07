@@ -4,5 +4,5 @@
 
 <tis::手机.md fetchFun="mLineFetchFun" default-tag="h'手机应用'" />
 
-<tis::other.md fetchFun="mLineFetchFun" default-tag="h'应用'" />
+<tis::unclassified.md fetchFun="mLineFetchFun" default-tag="h'应用'" />
 
